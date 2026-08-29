@@ -1,0 +1,236 @@
+media: images
+
+content:
+  - name: site
+    label: Site Settings
+    type: file
+    path: data/site.json
+    fields:
+      - name: site_name
+        label: Site Name
+        type: string
+      - name: tagline
+        label: Tagline
+        type: string
+      - name: hero_headline
+        label: Hero Headline
+        type: string
+      - name: hero_headline_accent
+        label: Hero Headline (accent word)
+        type: string
+      - name: hero_description
+        label: Hero Description
+        type: text
+      - name: hero_cta_primary
+        label: Primary Button Text
+        type: string
+      - name: hero_cta_secondary
+        label: Secondary Button Text
+        type: string
+      - name: about_heading
+        label: About Heading
+        type: string
+      - name: about_paragraph_1
+        label: About - Paragraph 1
+        type: text
+      - name: about_paragraph_2
+        label: About - Paragraph 2
+        type: text
+      - name: about_image
+        label: About Photo
+        type: image
+      - name: ice_heading
+        label: Ice Fishing Heading
+        type: string
+      - name: ice_description
+        label: Ice Fishing Description
+        type: text
+      - name: ice_image
+        label: Ice Fishing Background Image
+        type: image
+      - name: newsletter_heading
+        label: Newsletter Heading
+        type: string
+      - name: newsletter_description
+        label: Newsletter Description
+        type: text
+      - name: instagram_main
+        label: Instagram URL (main)
+        type: string
+      - name: instagram_scott
+        label: Instagram URL (Scott)
+        type: string
+      - name: youtube_url
+        label: YouTube URL
+        type: string
+      - name: tiktok_url
+        label: TikTok URL
+        type: string
+      - name: footer_text
+        label: Footer Text
+        type: string
+
+  - name: episodes
+    label: Episodes
+    type: file
+    path: data/episodes.json
+    fields:
+      - name: title
+        label: Episode Title
+        type: string
+      - name: episode_number
+        label: Episode Number
+        type: number
+      - name: duration
+        label: Duration
+        type: string
+      - name: thumbnail
+        label: Thumbnail Image
+        type: image
+      - name: youtube_url
+        label: YouTube URL
+        type: string
+
+  - name: gear
+    label: Gear
+    type: file
+    path: data/gear.json
+    fields:
+      - name: name
+        label: Gear Name
+        type: string
+      - name: subtitle
+        label: Subtitle
+        type: string
+      - name: image
+        label: Image
+        type: image
+      - name: featured
+        label: Featured (large card)
+        type: boolean
+
+  - name: weather
+    label: Weather & Bite Forecast
+    type: file
+    path: data/weather.json
+    fields:
+      - name: air_temp
+        label: Air Temperature
+        type: string
+      - name: air_temp_feels
+        label: Feels Like
+        type: string
+      - name: wind_speed
+        label: Wind Speed
+        type: string
+      - name: wind_detail
+        label: Wind Detail
+        type: string
+      - name: barometer
+        label: Barometer Reading
+        type: string
+      - name: barometer_detail
+        label: Barometer Trend
+        type: string
+      - name: moon_phase
+        label: Moon Phase
+        type: string
+      - name: moon_detail
+        label: Moon Detail
+        type: string
+      - name: bite_score
+        label: Bite Score (1-10)
+        type: number
+      - name: bite_rating
+        label: Bite Rating Label
+        type: string
+      - name: bite_summary
+        label: Bite Forecast Summary
+        type: text
+      - name: species_walleye
+        label: Walleye Activity
+        type: string
+      - name: species_smallmouth
+        label: Smallmouth Activity
+        type: string
+      - name: species_panfish
+        label: Panfish Activity
+        type: string
+      - name: species_musky
+        label: Musky Activity
+        type: string
+      - name: last_updated
+        label: Last Updated
+        type: date
+
+  - name: fishwall
+    label: Fish Wall
+    type: file
+    path: data/fishwall.json
+    fields:
+      - name: species
+        label: Species & Size
+        type: string
+      - name: angler
+        label: Angler Name
+        type: string
+      - name: location
+        label: Location
+        type: string
+      - name: image
+        label: Photo
+        type: image
+      - name: featured
+        label: Featured Catch
+        type: boolean
+      - name: badge
+        label: Badge Text
+        type: string
+
+  - name: fishmap
+    label: Fish Map Pins
+    type: file
+    path: data/fishmap.json
+    fields:
+      - name: species
+        label: Species Type
+        type: select
+        options:
+          - walleye
+          - bass
+          - panfish
+          - musky
+          - trout
+      - name: title
+        label: Catch Title
+        type: string
+      - name: angler
+        label: Angler
+        type: string
+      - name: location
+        label: Location
+        type: string
+      - name: date
+        label: Date
+        type: string
+      - name: x
+        label: Map X Position (0-800)
+        type: number
+      - name: y
+        label: Map Y Position (0-400)
+        type: number
+      - name: size
+        label: Pin Size (5-8)
+        type: number
+
+  - name: social
+    label: Social Grid Images
+    type: file
+    path: data/social.json
+    fields:
+      - name: image
+        label: Image
+        type: image
+      - name: alt
+        label: Alt Text
+        type: string
