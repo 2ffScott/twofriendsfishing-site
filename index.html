@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Friends Fishing | Wisconsin Kayak Fishing & Outdoors</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=Caveat:wght@500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pine: #2c3e2d;
+  --pine-deep: #1a2b1c;
+  --cedar: #5c4a3a;
+  --bark: #3d2e22;
+  --stone: #8a8578;
+  --slate-water: #3a4d5c;
+  --deep-water: #1c2d3a;
+  --river-blue: #4a6d7a;
+  --lake-fog: #c8d4d8;
+  --driftwood: #b8a892;
+  --sand: #d4c8b0;
+  --cream: #f2ece3;
+  --warm-white: #f8f5f0;
+  --moss: #6b7c4a;
+  --sage: #8a9a6e;
+  --ember: #a85a3a;
+  --campfire: #c4713a;
+  --walleye-gold: #c4a245;
+  --text: #2a2520;
+  --text-mid: #5a5248;
+  --text-light: #7a7268;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--warm-white);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,43,28,0.95);backdrop-filter:blur(14px);padding:0 2.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--cedar)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--cream);letter-spacing:2px;text-decoration:none}
+.nav-logo span{color:var(--sage)}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{color:var(--lake-fog);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;transition:color .3s;position:relative}
+.nav-links a:hover{color:var(--sand)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--sage);transform:scaleX(0);transition:transform .3s}
+.nav-links a:hover::after{transform:scaleX(1)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:24px;height:2px;background:var(--cream)}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,var(--pine-deep) 0%,var(--deep-water) 40%,var(--bark) 100%)}
+.hero-texture{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 80%,transparent 0%,rgba(0,0,0,.4) 100%)}
+.hero-content{position:relative;z-index:2;padding:4rem 3rem;max-width:750px}
+.hero-tag{font-family:'Caveat',cursive;font-size:1.35rem;color:var(--sage);margin-bottom:.5rem;opacity:0;animation:slideUp .7s .2s forwards}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,8vw,7rem);color:var(--cream);line-height:.92;letter-spacing:3px;margin-bottom:1.2rem;opacity:0;animation:slideUp .7s .4s forwards}
+.hero h1 .accent{color:var(--moss)}
+.hero-sub{font-family:'Source Serif 4',serif;font-size:1.05rem;font-weight:300;color:var(--lake-fog);line-height:1.7;max-width:480px;margin-bottom:2.2rem;opacity:0;animation:slideUp .7s .6s forwards}
+.hero-cta{display:inline-flex;gap:1rem;opacity:0;animation:slideUp .7s .8s forwards}
+.btn{display:inline-block;padding:.8rem 1.8rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:2px;text-decoration:none;border:none;cursor:pointer;transition:all .3s}
+.btn-primary{background:var(--pine);color:var(--cream)}.btn-primary:hover{background:var(--moss);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--cream);border:1.5px solid rgba(255,255,255,.4)}.btn-outline:hover{background:rgba(255,255,255,.08);border-color:var(--cream)}
+.btn-ember{background:var(--ember);color:var(--cream)}.btn-ember:hover{background:var(--campfire);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:2;color:var(--lake-fog);font-size:.65rem;letter-spacing:3px;text-transform:uppercase;text-align:center;opacity:0;animation:fadeIn 1s 1.4s forwards}
+.hero-scroll::after{content:'';display:block;width:1px;height:36px;background:var(--lake-fog);margin:.5rem auto 0;animation:pulse 2s infinite}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1fr 1fr;min-height:75vh}
+.about-image{position:relative;overflow:hidden}
+.about-image img{width:100%;height:100%;object-fit:cover}
+.about-image::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--warm-white))}
+.about-text{display:flex;flex-direction:column;justify-content:center;padding:4rem 4rem 4rem 3rem}
+.section-tag{font-family:'Caveat',cursive;font-size:1.15rem;color:var(--ember);margin-bottom:.4rem}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,3.5vw,3.2rem);color:var(--pine-deep);letter-spacing:2px;line-height:1;margin-bottom:1.5rem}
+.about-text p{font-family:'Source Serif 4',serif;font-size:.95rem;font-weight:300;line-height:1.85;color:var(--text-mid);margin-bottom:1rem;max-width:460px}
+.about-stats{display:flex;gap:2.5rem;margin-top:2rem;padding-top:2rem;border-top:1px solid var(--sand)}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--pine);line-height:1}
+.stat-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-top:.2rem}
+
+/* EPISODES */
+.episodes{background:var(--deep-water);padding:5rem 3rem;text-align:center}
+.episodes .section-tag{color:var(--walleye-gold)}
+.episodes .section-title{color:var(--cream);margin-bottom:.5rem}
+.episodes .section-sub{font-family:'Source Serif 4',serif;color:var(--lake-fog);font-weight:300;max-width:520px;margin:0 auto 3rem;line-height:1.6}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:1060px;margin:0 auto}
+.video-card{position:relative;aspect-ratio:16/9;border-radius:5px;overflow:hidden;cursor:pointer}
+.video-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.video-card:hover img{transform:scale(1.05)}
+.video-card::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.7))}
+.video-card-info{position:absolute;bottom:0;left:0;right:0;padding:1rem;z-index:2;text-align:left}
+.video-card-title{font-family:'Bebas Neue',sans-serif;color:var(--cream);font-size:1.05rem;letter-spacing:1px}
+.video-card-meta{color:var(--lake-fog);font-size:.72rem;margin-top:.2rem}
+.play-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;width:48px;height:48px;background:rgba(44,62,45,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s;border:2px solid rgba(255,255,255,.2)}
+.video-card:hover .play-icon{background:var(--pine);border-color:var(--sage);transform:translate(-50%,-50%) scale(1.1)}
+.play-icon svg{fill:white;width:18px;height:18px;margin-left:2px}
+
+/* GEAR */
+.gear{padding:5rem 3rem;max-width:1160px;margin:0 auto}
+.gear-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
+.gear-gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:280px 280px;gap:.8rem}
+.gear-item{position:relative;border-radius:5px;overflow:hidden}
+.gear-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gear-item:hover img{transform:scale(1.04)}
+.gear-item:first-child{grid-row:span 2}
+.gear-item::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(0,0,0,.55))}
+.gear-label{position:absolute;bottom:.8rem;left:.8rem;z-index:2;font-family:'Bebas Neue',sans-serif;color:var(--cream);font-size:1.15rem;letter-spacing:1px}
+.gear-sublabel{font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:400;letter-spacing:.5px;opacity:.8;display:block;margin-top:1px}
+
+/* FEATURE */
+.feature{position:relative;min-height:65vh;display:flex;align-items:center;overflow:hidden}
+.feature-bg{position:absolute;inset:0}
+.feature-bg img{width:100%;height:100%;object-fit:cover}
+.feature-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(26,43,28,.93) 0%,rgba(26,43,28,.65) 45%,transparent 100%)}
+.feature-content{position:relative;z-index:2;padding:4rem;max-width:520px}
+.feature-content .section-tag{color:var(--walleye-gold)}
+.feature-content .section-title{color:var(--cream)}
+.feature-content p{font-family:'Source Serif 4',serif;color:var(--lake-fog);font-weight:300;line-height:1.8;margin-bottom:2rem}
+
+/* WEATHER */
+.weather{background:var(--cream);padding:5rem 3rem}
+.weather-inner{max-width:1060px;margin:0 auto}
+.weather-header{margin-bottom:2.5rem}
+.weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.wx-card{background:var(--warm-white);border:1px solid var(--sand);border-radius:6px;padding:1.5rem;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.wx-card:hover{border-color:var(--pine);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.wx-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--pine);transform:scaleX(0);transition:transform .3s}
+.wx-card:hover::before{transform:scaleX(1)}
+.wx-icon{font-size:2rem;margin-bottom:.8rem;display:block}
+.wx-label{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-light);margin-bottom:.5rem}
+.wx-value{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--pine-deep);line-height:1}
+.wx-detail{font-size:.75rem;color:var(--text-light);margin-top:.3rem}
+.wx-bite-meter{margin-top:2rem;background:var(--warm-white);border:1px solid var(--sand);border-radius:6px;padding:2rem;display:flex;align-items:center;gap:2rem}
+.bite-gauge{flex-shrink:0;width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--moss) 0% 72%,var(--sand) 72% 100%);display:flex;align-items:center;justify-content:center}
+.bite-gauge-inner{width:88px;height:88px;border-radius:50%;background:var(--warm-white);display:flex;align-items:center;justify-content:center;flex-direction:column}
+.bite-score{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--moss);line-height:1}
+.bite-score-label{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light)}
+.bite-info h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--pine-deep);letter-spacing:1px;margin-bottom:.5rem}
+.bite-info p{font-family:'Source Serif 4',serif;font-size:.9rem;color:var(--text-mid);line-height:1.7;font-weight:300}
+.bite-species{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.species-tag{font-size:.7rem;padding:.3rem .7rem;border-radius:20px;background:var(--pine);color:var(--cream);letter-spacing:.5px}
+.wx-disclaimer{font-size:.7rem;color:var(--stone);text-align:center;margin-top:1.5rem;font-style:italic}
+@keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(107,124,74,.6)}70%{box-shadow:0 0 0 8px rgba(107,124,74,0)}100%{box-shadow:0 0 0 0 rgba(107,124,74,0)}}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--moss);margin-right:.4rem;animation:livePulse 2s infinite;vertical-align:middle}
+
+/* FISH MAP */
+.fishmap{background:var(--deep-water);padding:5rem 3rem;position:relative;overflow:hidden}
+.fishmap::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z' fill='%23ffffff' fill-opacity='0.015' fill-rule='evenodd'/%3E%3C/svg%3E")}
+.fishmap-inner{max-width:1060px;margin:0 auto;position:relative;z-index:2}
+.fishmap .section-tag{color:var(--walleye-gold)}
+.fishmap .section-title{color:var(--cream);margin-bottom:.5rem}
+.fishmap .section-sub{font-family:'Source Serif 4',serif;color:var(--lake-fog);font-weight:300;max-width:500px;line-height:1.6;margin-bottom:2.5rem}
+.map-container{border-radius:8px;overflow:hidden;border:2px solid rgba(255,255,255,.1);background:var(--slate-water);position:relative;aspect-ratio:16/8}
+.map-svg{width:100%;height:100%}
+.map-pin{cursor:pointer;transition:transform .2s}
+.map-pin:hover{transform:scale(1.3)}
+.pin-dot{stroke:var(--cream);stroke-width:1.5}
+.pin-dot.walleye{fill:var(--walleye-gold)}.pin-dot.bass{fill:var(--moss)}.pin-dot.panfish{fill:var(--river-blue)}.pin-dot.musky{fill:var(--ember)}.pin-dot.trout{fill:var(--sage)}
+.map-legend{display:flex;gap:1.5rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:.4rem;color:var(--lake-fog);font-size:.75rem}
+.legend-dot{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3)}
+.map-popup{position:absolute;background:var(--warm-white);border-radius:6px;padding:0;width:240px;box-shadow:0 12px 40px rgba(0,0,0,.3);display:none;z-index:10;overflow:hidden}
+.map-popup.active{display:block}
+.popup-header{height:100px;display:flex;align-items:center;justify-content:center}
+.popup-body{padding:.8rem}
+.popup-species{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--pine-deep);letter-spacing:1px}
+.popup-meta{font-size:.7rem;color:var(--text-light);margin-top:.2rem}
+.popup-close{position:absolute;top:6px;right:8px;background:rgba(0,0,0,.5);color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.map-cta{text-align:center;margin-top:2rem}
+
+/* FISH WALL */
+.fishwall{padding:5rem 3rem;background:var(--warm-white)}
+.fishwall-inner{max-width:1060px;margin:0 auto}
+.fishwall-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem}
+.fishwall-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+.fish-card{position:relative;border-radius:6px;overflow:hidden;cursor:pointer;background:var(--cream)}
+.fish-card.featured{grid-column:span 2;grid-row:span 2}
+.fish-card-img{width:100%;aspect-ratio:1;object-fit:cover;transition:transform .5s}
+.fish-card.featured .fish-card-img{aspect-ratio:auto;height:100%}
+.fish-card:hover .fish-card-img{transform:scale(1.04)}
+.fish-card::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(0,0,0,.6));pointer-events:none}
+.fish-card-info{position:absolute;bottom:0;left:0;right:0;padding:.8rem;z-index:2}
+.fish-card-species{font-family:'Bebas Neue',sans-serif;color:var(--cream);font-size:1rem;letter-spacing:1px}
+.fish-card-angler{font-size:.7rem;color:var(--lake-fog)}
+.fish-card-location{font-size:.65rem;color:var(--sage);display:flex;align-items:center;gap:.3rem;margin-top:.15rem}
+.fish-card-location svg{width:10px;height:10px;fill:var(--sage)}
+.fish-card-badge{position:absolute;top:.6rem;right:.6rem;z-index:2;font-family:'Bebas Neue',sans-serif;font-size:.65rem;letter-spacing:1.5px;background:var(--walleye-gold);color:var(--bark);padding:.2rem .6rem;border-radius:3px}
+.fishwall-submit{margin-top:2.5rem;text-align:center;padding:2.5rem;border:2px dashed var(--sand);border-radius:8px;background:var(--cream)}
+.fishwall-submit-icon{font-size:2.5rem;margin-bottom:.8rem}
+.fishwall-submit h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--pine-deep);letter-spacing:1px;margin-bottom:.3rem}
+.fishwall-submit p{color:var(--text-light);font-size:.85rem;margin-bottom:1.2rem}
+
+/* SOCIAL */
+.social{background:var(--cream);padding:5rem 3rem;text-align:center;border-top:1px solid var(--sand)}
+.social .section-title{margin-bottom:.5rem}
+.social-sub{color:var(--text-light);font-weight:300;margin-bottom:3rem}
+.social-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;max-width:860px;margin:0 auto 2rem}
+.social-tile{aspect-ratio:1;border-radius:5px;overflow:hidden;position:relative}
+.social-tile img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.social-tile:hover img{transform:scale(1.05)}
+.social-tile::after{content:'';position:absolute;inset:0;background:rgba(28,43,28,.25);opacity:0;transition:opacity .3s}
+.social-tile:hover::after{opacity:1}
+.social-handles{display:flex;justify-content:center;gap:1.5rem;margin-top:2rem}
+.social-handle{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px;color:var(--pine-deep);text-decoration:none;padding:.45rem .9rem;border:1.5px solid var(--pine-deep);border-radius:3px;transition:all .3s}
+.social-handle:hover{background:var(--pine-deep);color:var(--cream)}
+
+/* NEWSLETTER */
+.newsletter{background:var(--pine);padding:4rem 3rem;text-align:center}
+.newsletter .section-title{color:var(--cream);margin-bottom:.3rem}
+.newsletter p{font-family:'Source Serif 4',serif;color:rgba(255,255,255,.6);font-weight:300;margin-bottom:2rem}
+.newsletter-form{display:flex;max-width:460px;margin:0 auto}
+.newsletter-form input{flex:1;padding:.85rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.85rem;background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.2);border-right:none}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.45)}
+.newsletter-form button{padding:.85rem 1.8rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:2px;background:var(--ember);color:white;border:1px solid var(--ember);cursor:pointer;transition:background .3s}
+.newsletter-form button:hover{background:var(--campfire)}
+
+/* FOOTER */
+footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--cedar)}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--cream);letter-spacing:2px}
+.footer-logo span{color:var(--sage)}
+.footer-text{color:var(--lake-fog);font-size:.7rem;font-weight:300}
+.footer-links{display:flex;gap:1.5rem;list-style:none}
+.footer-links a{color:var(--lake-fog);text-decoration:none;font-size:.75rem;transition:color .3s}
+.footer-links a:hover{color:var(--sand)}
+
+/* ANIMATIONS */
+@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links{display:none}.hamburger{display:flex}
+  .about{grid-template-columns:1fr}.about-image{height:50vh}.about-text{padding:3rem 2rem}
+  .video-grid{grid-template-columns:1fr}
+  .gear-gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}.gear-item:first-child{grid-row:span 1}
+  .weather-grid{grid-template-columns:repeat(2,1fr)}
+  .wx-bite-meter{flex-direction:column;text-align:center}
+  .fishwall-grid{grid-template-columns:repeat(2,1fr)}.fish-card.featured{grid-column:span 2;grid-row:span 1}
+  .social-grid{grid-template-columns:repeat(2,1fr)}
+  .feature-content{padding:2.5rem}
+  footer{flex-direction:column;gap:1rem;text-align:center}
+  .hero-content{padding:2rem}
+  .social-handles{flex-wrap:wrap;justify-content:center}
+  .gear-header,.fishwall-header{flex-direction:column;align-items:flex-start;gap:1rem}
+}
+@media(max-width:600px){
+  .hero h1{font-size:3rem}.hero-cta{flex-direction:column}
+  .about-stats{flex-direction:column;gap:1rem}
+  .gear-gallery{grid-template-columns:1fr}
+  .weather-grid{grid-template-columns:1fr 1fr}
+  .fishwall-grid{grid-template-columns:1fr}.fish-card.featured{grid-column:span 1}
+  .newsletter-form{flex-direction:column}.newsletter-form input{border-right:1px solid rgba(255,255,255,.2)}
+  .social-grid{grid-template-columns:1fr 1fr}
+  .map-container{aspect-ratio:4/3}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">TWO FRIENDS <span>FISHING</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#episodes">Episodes</a></li>
+    <li><a href="#gear">Gear</a></li>
+    <li><a href="#weather">Forecast</a></li>
+    <li><a href="#fishmap">Fish Map</a></li>
+    <li><a href="#fishwall">Fish Wall</a></li>
+    <li><a href="#follow">Follow</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-texture"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Wisconsin's Kayak Fishing Show</div>
+    <h1>TWO FRIENDS<br><span class="accent">FISHING</span></h1>
+    <p class="hero-sub">Real fishing. Real friendship. From the waters of Wisconsin — kayak fishing, ice fishing, gear reviews, and everything in between.</p>
+    <div class="hero-cta">
+      <a href="#episodes" class="btn btn-primary">Watch Episodes</a>
+      <a href="#fishmap" class="btn btn-outline">Explore the Map</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-image">
+    <img src="images/scott-and-adam.jpg" id="about-img" alt="Scott and Adam">
+  </div>
+  <div class="about-text">
+    <div class="section-tag">Who we are</div>
+    <h2 class="section-title">TWO FRIENDS.<br>ONE PASSION.</h2>
+    <p>We're Scott and Adam — two buddies from Appleton, Wisconsin who'd rather be on the water than anywhere else. What started as weekend kayak trips turned into a full-blown fishing show.</p>
+    <p>We film everything ourselves, rig our own gear, and keep it real. No sponsors telling us what to say. Just honest takes on the fish, the gear, and the Wisconsin outdoors.</p>
+    <div class="about-stats">
+      <div><div class="stat-num">WI</div><div class="stat-label">Based in Wisconsin</div></div>
+      <div><div class="stat-num">2</div><div class="stat-label">Friends. That's it.</div></div>
+      <div><div class="stat-num">4 SZN</div><div class="stat-label">Year-round fishing</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EPISODES -->
+<section class="episodes" id="episodes">
+  <div class="section-tag">Latest from the channel</div>
+  <h2 class="section-title">EPISODES & VIDEOS</h2>
+  <p class="section-sub">New episodes every week — kayak fishing trips, ice fishing adventures, gear breakdowns, and behind-the-scenes from our studio.</p>
+  <div class="video-grid">
+    <div class="video-card">
+      <img src="images/episode-studio-1.jpg" alt="Studio episode">
+      <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="video-card-info">
+        <div class="video-card-title">Season Opener Preview</div>
+        <div class="video-card-meta">Episode 12 &bull; 18 min</div>
+      </div>
+    </div>
+    <div class="video-card">
+      <img src="images/episode-ice-fishing.jpg" alt="Ice fishing">
+      <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="video-card-info">
+        <div class="video-card-title">Winnebago Ice Fishing</div>
+        <div class="video-card-meta">Episode 11 &bull; 22 min</div>
+      </div>
+    </div>
+    <div class="video-card">
+      <img src="images/episode-studio-2.jpg" alt="Studio filming">
+      <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="video-card-info">
+        <div class="video-card-title">Gear Talk: NuCanoe Setup</div>
+        <div class="video-card-meta">Episode 10 &bull; 15 min</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GEAR -->
+<section class="gear" id="gear">
+  <div class="gear-header">
+    <div><div class="section-tag">What we run</div><h2 class="section-title">OUR GEAR</h2></div>
+    <a href="#" class="btn btn-primary" style="margin-bottom:.5rem">Full Gear List</a>
+  </div>
+  <div class="gear-gallery">
+    <div class="gear-item">
+      <img src="images/nucanoe-unlimited.webp" alt="NuCanoe Unlimited">
+      <div class="gear-label">NuCanoe Unlimited<span class="gear-sublabel">Scott's primary platform</span></div>
+    </div>
+    <div class="gear-item">
+      <img src="images/hawkeye-fishtrax.webp" alt="HawkEye FishTrax">
+      <div class="gear-label">HawkEye FishTrax<span class="gear-sublabel">Castable fish finder</span></div>
+    </div>
+    <div class="gear-item">
+      <img src="images/adam-kayak.webp" alt="Bonafide SS127">
+      <div class="gear-label">Bonafide SS127<span class="gear-sublabel">Adam's primary platform</span></div>
+    </div>
+    <div class="gear-item">
+      <img src="images/transducer-arm.webp" alt="Transducer mount">
+      <div class="gear-label">Transducer Arm<span class="gear-sublabel">Custom mount system</span></div>
+    </div>
+    <div class="gear-item">
+      <img src="images/eskimo-shelter.webp" alt="Eskimo shelter">
+      <div class="gear-label">Eskimo Ice Shelter<span class="gear-sublabel">Hard-water essentials</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ICE FISHING -->
+<section class="feature" id="ice">
+  <div class="feature-bg"><img src="images/ice-fishing-winnebago.jpg" alt="Lake Winnebago ice"></div>
+  <div class="feature-content">
+    <div class="section-tag">Hard water season</div>
+    <h2 class="section-title">ICE FISHING<br>WISCONSIN</h2>
+    <p>When the lakes freeze over, we don't stop. From Lake Winnebago sturgeon to panfish on the inland lakes, we're out there drilling holes and dropping lines all winter long.</p>
+    <a href="#episodes" class="btn btn-primary">Watch Ice Episodes</a>
+  </div>
+</section>
+
+<!-- WEATHER REPORT -->
+<section class="weather" id="weather">
+  <div class="weather-inner">
+    <div class="weather-header">
+      <div class="section-tag"><span class="live-dot"></span> Live conditions</div>
+      <h2 class="section-title">FISHING WEATHER REPORT</h2>
+      <p style="color:var(--text-mid);font-family:'Source Serif 4',serif;font-weight:300;font-size:.9rem;max-width:500px">Real-time conditions that matter to anglers. Updated from NOAA &amp; NWS public data for central Wisconsin waters.</p>
+    </div>
+    <div class="weather-grid">
+      <div class="wx-card"><span class="wx-icon">🌡️</span><div class="wx-label">Air Temp</div><div class="wx-value">47°F</div><div class="wx-detail">Feels like 42°F</div></div>
+      <div class="wx-card"><span class="wx-icon">💨</span><div class="wx-label">Wind</div><div class="wx-value">8 MPH</div><div class="wx-detail">SSW &bull; Gusts to 14</div></div>
+      <div class="wx-card"><span class="wx-icon">📊</span><div class="wx-label">Barometer</div><div class="wx-value">30.12</div><div class="wx-detail">Falling slowly ↓</div></div>
+      <div class="wx-card"><span class="wx-icon">🌙</span><div class="wx-label">Moon Phase</div><div class="wx-value">Waxing</div><div class="wx-detail">68% illumination</div></div>
+    </div>
+    <div class="wx-bite-meter">
+      <div class="bite-gauge"><div class="bite-gauge-inner"><div class="bite-score">7.2</div><div class="bite-score-label">Bite Rating</div></div></div>
+      <div class="bite-info">
+        <h3>TODAY'S BITE FORECAST: GOOD</h3>
+        <p>Falling barometric pressure and overcast skies are setting up well for active feeding windows. Best action expected in the early morning and late afternoon. South winds will push baitfish into north-facing shorelines — work those windblown banks.</p>
+        <div class="bite-species">
+          <span class="species-tag">Walleye — Active</span>
+          <span class="species-tag">Smallmouth — Moderate</span>
+          <span class="species-tag">Panfish — Good</span>
+          <span class="species-tag">Musky — Slow</span>
+        </div>
+      </div>
+    </div>
+    <div class="wx-disclaimer">Data sourced from NOAA/NWS public feeds &bull; Bite forecast is editorial, not guaranteed &bull; Always check local conditions</div>
+  </div>
+</section>
+
+<!-- FISH MAP -->
+<section class="fishmap" id="fishmap">
+  <div class="fishmap-inner">
+    <div class="section-tag">Community intel</div>
+    <h2 class="section-title">WHERE THEY'RE BITING</h2>
+    <p class="section-sub">Drop a pin where you caught 'em. Browse reports from the Two Friends Fishing community across Wisconsin waters.</p>
+    <div class="map-container" id="mapContainer">
+      <svg class="map-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a5a6a" stop-opacity=".3"/><stop offset="100%" stop-color="#2a4a5a" stop-opacity=".5"/></linearGradient>
+          <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="800" height="400" fill="#2a3d4a"/>
+        <path d="M80,40 L350,30 L380,50 L420,40 L500,35 L560,60 L600,45 L680,70 L720,90 L700,150 L720,200 L710,260 L680,300 L620,340 L550,360 L480,370 L400,365 L320,350 L260,330 L200,310 L140,280 L100,240 L80,180 L70,120 Z" fill="#3d5040" stroke="#4a6050" stroke-width="1"/>
+        <ellipse cx="520" cy="130" rx="45" ry="65" fill="url(#waterGrad)" opacity=".8"/>
+        <text x="520" y="135" text-anchor="middle" fill="#6a8a9a" font-size="9" font-family="DM Sans" opacity=".7">Winnebago</text>
+        <ellipse cx="180" cy="120" rx="30" ry="20" fill="url(#waterGrad)" opacity=".6"/>
+        <text x="180" y="124" text-anchor="middle" fill="#6a8a9a" font-size="7" font-family="DM Sans" opacity=".7">St. Croix</text>
+        <ellipse cx="350" cy="90" rx="20" ry="15" fill="url(#waterGrad)" opacity=".6"/>
+        <text x="350" y="94" text-anchor="middle" fill="#6a8a9a" font-size="7" font-family="DM Sans" opacity=".7">Shawano</text>
+        <ellipse cx="600" cy="180" rx="25" ry="20" fill="url(#waterGrad)" opacity=".6"/>
+        <text x="600" y="184" text-anchor="middle" fill="#6a8a9a" font-size="7" font-family="DM Sans" opacity=".7">Sturgeon Bay</text>
+        <ellipse cx="280" cy="230" rx="30" ry="18" fill="url(#waterGrad)" opacity=".6"/>
+        <text x="280" y="234" text-anchor="middle" fill="#6a8a9a" font-size="7" font-family="DM Sans" opacity=".7">Wisconsin R.</text>
+        <circle cx="490" cy="160" r="3" fill="#8a9a6e" opacity=".6"/>
+        <text x="498" y="163" fill="#8a9a6e" font-size="8" font-family="DM Sans" opacity=".6">Appleton</text>
+        <circle cx="350" cy="300" r="3" fill="#8a9a6e" opacity=".4"/>
+        <text x="358" y="303" fill="#8a9a6e" font-size="7" font-family="DM Sans" opacity=".4">Madison</text>
+        <circle cx="480" cy="320" r="3" fill="#8a9a6e" opacity=".4"/>
+        <text x="488" y="323" fill="#8a9a6e" font-size="7" font-family="DM Sans" opacity=".4">Milwaukee</text>
+        <!-- Pins -->
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'walleye','24&quot; Walleye','@fisherman_joe','Lake Winnebago','Apr 5, 2026')"><circle cx="510" cy="110" r="7" class="pin-dot walleye"/></g>
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'walleye','19&quot; Walleye','@driftboat_dan','Wolf River','Apr 4, 2026')"><circle cx="480" cy="125" r="6" class="pin-dot walleye"/></g>
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'bass','4.2 lb Smallmouth','@basshunter_wi','Lake Winnebago','Apr 3, 2026')"><circle cx="530" cy="145" r="6" class="pin-dot bass"/></g>
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'panfish','10&quot; Bluegill','@panfish_pete','Shawano Lake','Apr 5, 2026')"><circle cx="355" cy="78" r="5" class="pin-dot panfish"/></g>
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'musky','42&quot; Musky','@musky_mike_wi','Chippewa Flowage','Apr 2, 2026')"><circle cx="220" cy="100" r="7" class="pin-dot musky"/></g>
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'trout','16&quot; Brown Trout','@driftless_angler','Driftless Area','Apr 4, 2026')"><circle cx="240" cy="280" r="6" class="pin-dot trout"/></g>
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'bass','3.8 lb Largemouth','@kayak_kev','Fox River','Apr 5, 2026')"><circle cx="500" cy="175" r="5" class="pin-dot bass"/></g>
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'walleye','21&quot; Walleye','@wi_walleye','Green Bay','Apr 3, 2026')"><circle cx="560" cy="100" r="6" class="pin-dot walleye"/></g>
+        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'panfish','9&quot; Crappie','@slab_hunter','Wisconsin River','Apr 1, 2026')"><circle cx="290" cy="220" r="5" class="pin-dot panfish"/></g>
+      </svg>
+      <div class="map-popup" id="mapPopup">
+        <button class="popup-close" onclick="document.getElementById('mapPopup').classList.remove('active')">&times;</button>
+        <div class="popup-header" id="popupHeader" style="background:var(--slate-water)"><span style="font-size:2.5rem" id="popupEmoji">🐟</span></div>
+        <div class="popup-body">
+          <div class="popup-species" id="popupSpecies">24" Walleye</div>
+          <div class="popup-meta" id="popupAngler">@fisherman_joe</div>
+          <div class="popup-meta" id="popupLocation">📍 Lake Winnebago &bull; Apr 5, 2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--walleye-gold)"></div> Walleye</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--moss)"></div> Bass</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--river-blue)"></div> Panfish</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--ember)"></div> Musky</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--sage)"></div> Trout</div>
+    </div>
+    <div class="map-cta"><a href="#" class="btn btn-primary" style="margin-top:.5rem">Drop Your Pin</a></div>
+  </div>
+</section>
+
+<!-- FISH WALL -->
+<section class="fishwall" id="fishwall">
+  <div class="fishwall-inner">
+    <div class="fishwall-header">
+      <div><div class="section-tag">The community board</div><h2 class="section-title">SHARE YOUR FISH</h2></div>
+      <a href="#" class="btn btn-primary">Submit Your Catch</a>
+    </div>
+    <div class="fishwall-grid">
+      <div class="fish-card featured">
+        <img class="fish-card-img" src="images/eskimo-shelter.webp" alt="Catch of the week">
+        <div class="fish-card-badge">CATCH OF THE WEEK</div>
+        <div class="fish-card-info">
+          <div class="fish-card-species">Walleye — 24"</div>
+          <div class="fish-card-angler">Caught by Scott</div>
+          <div class="fish-card-location"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Lake Winnebago, WI</div>
+        </div>
+      </div>
+      <div class="fish-card">
+        <img class="fish-card-img" src="images/catch-smallmouth.jpg" alt="Catch">
+        <div class="fish-card-info">
+          <div class="fish-card-species">Smallmouth — 18"</div>
+          <div class="fish-card-angler">@kayak_kevin</div>
+          <div class="fish-card-location"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Fox River</div>
+        </div>
+      </div>
+      <div class="fish-card">
+        <img class="fish-card-img" src="images/catch-largemouth.jpg" alt="Catch">
+        <div class="fish-card-info">
+          <div class="fish-card-species">Largemouth — 4.1 lbs</div>
+          <div class="fish-card-angler">@adam_shoots</div>
+          <div class="fish-card-location"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Shawano Lake</div>
+        </div>
+      </div>
+      <div class="fish-card">
+        <img class="fish-card-img" src="images/catch-bluegill.jpg" alt="Catch">
+        <div class="fish-card-info">
+          <div class="fish-card-species">Bluegill — 10"</div>
+          <div class="fish-card-angler">@panfish_paul</div>
+          <div class="fish-card-location"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Lake Butte des Morts</div>
+        </div>
+      </div>
+      <div class="fish-card">
+        <img class="fish-card-img" src="images/catch-crappie.jpg" alt="Catch">
+        <div class="fish-card-info">
+          <div class="fish-card-species">Crappie — 12"</div>
+          <div class="fish-card-angler">@slab_city</div>
+          <div class="fish-card-location"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Wolf River</div>
+        </div>
+      </div>
+    </div>
+    <div class="fishwall-submit">
+      <div class="fishwall-submit-icon">🐟</div>
+      <h3>CAUGHT SOMETHING? SHOW US.</h3>
+      <p>Submit your photo, species, and location. Best catch each week gets featured on the wall and shouted out on the show.</p>
+      <a href="#" class="btn btn-ember">Upload Your Catch</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL -->
+<section class="social" id="follow">
+  <div class="section-tag">Join the crew</div>
+  <h2 class="section-title">FOLLOW ALONG</h2>
+  <p class="social-sub">Catch us on Instagram, YouTube, and TikTok for daily fishing content, behind-the-scenes, and trip reports.</p>
+  <div class="social-grid">
+    <div class="social-tile"><img src="images/social-1.jpg" alt=""></div>
+    <div class="social-tile"><img src="images/catch-largemouth.jpg" alt=""></div>
+    <div class="social-tile"><img src="images/social-3.webp" alt=""></div>
+    <div class="social-tile"><img src="images/catch-crappie.jpg" alt=""></div>
+  </div>
+  <div class="social-handles">
+    <a href="https://instagram.com/two_friends_fishing" class="social-handle">@two_friends_fishing</a>
+    <a href="https://instagram.com/2ff_scott" class="social-handle">@2ff_scott</a>
+    <a href="#" class="social-handle">YouTube</a>
+    <a href="#" class="social-handle">TikTok</a>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="section-tag" style="color:var(--walleye-gold)">Stay in the loop</div>
+  <h2 class="section-title">GET ON THE LIST</h2>
+  <p>Trip reports, gear drops, and new episode alerts. No spam — just fishing.</p>
+  <div class="newsletter-form"><input type="email" placeholder="Your email address"><button>Subscribe</button></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">TWO FRIENDS <span>FISHING</span></div>
+  <div class="footer-text">&copy; 2026 Two Friends Outdoors LLC &bull; Appleton, Wisconsin</div>
+  <ul class="footer-links">
+    <li><a href="#">YouTube</a></li>
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">TikTok</a></li>
+    <li><a href="#">Substack</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════
+// DATA-DRIVEN RENDERING — loads content from JSON files
+// Edit content via Pages CMS at app.pagescms.org
+// ══════════════════════════════════════════════════════
+async function loadSiteData() {
+  try {
+    const [site, episodes, gear, weather, fishwall, fishmap, social] = await Promise.all([
+      fetch('data/site.json').then(r => r.json()),
+      fetch('data/episodes.json').then(r => r.json()),
+      fetch('data/gear.json').then(r => r.json()),
+      fetch('data/weather.json').then(r => r.json()),
+      fetch('data/fishwall.json').then(r => r.json()),
+      fetch('data/fishmap.json').then(r => r.json()),
+      fetch('data/social.json').then(r => r.json())
+    ]);
+
+    // ── Site / Hero ──
+    const heroTag = document.querySelector('.hero-tag');
+    if (heroTag) heroTag.textContent = site.tagline;
+    const heroH1 = document.querySelector('.hero h1');
+    if (heroH1) heroH1.innerHTML = site.hero_headline + '<br><span class="accent">' + site.hero_headline_accent + '</span>';
+    const heroSub = document.querySelector('.hero-sub');
+    if (heroSub) heroSub.textContent = site.hero_description;
+    const heroBtns = document.querySelectorAll('.hero-cta .btn');
+    if (heroBtns[0]) heroBtns[0].textContent = site.hero_cta_primary;
+    if (heroBtns[1]) heroBtns[1].textContent = site.hero_cta_secondary;
+
+    // ── About ──
+    const aboutImg = document.querySelector('#about-img');
+    if (aboutImg && site.about_image) aboutImg.src = site.about_image;
+    const aboutPs = document.querySelectorAll('.about-text p');
+    if (aboutPs[0]) aboutPs[0].textContent = site.about_paragraph_1;
+    if (aboutPs[1]) aboutPs[1].textContent = site.about_paragraph_2;
+
+    // ── Episodes ──
+    const videoGrid = document.querySelector('.video-grid');
+    if (videoGrid && episodes.length) {
+      videoGrid.innerHTML = episodes.map(ep => `
+        <div class="video-card" ${ep.youtube_url ? `onclick="window.open('${ep.youtube_url}','_blank')"` : ''}>
+          <img src="${ep.thumbnail}" alt="${ep.title}">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          <div class="video-card-info">
+            <div class="video-card-title">${ep.title}</div>
+            <div class="video-card-meta">Episode ${ep.episode_number} &bull; ${ep.duration}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ── Gear ──
+    const gearGallery = document.querySelector('.gear-gallery');
+    if (gearGallery && gear.length) {
+      gearGallery.innerHTML = gear.map(g => `
+        <div class="gear-item">
+          <img src="${g.image}" alt="${g.name}">
+          <div class="gear-label">${g.name}<span class="gear-sublabel">${g.subtitle}</span></div>
+        </div>
+      `).join('');
+    }
+
+    // ── Ice Fishing ──
+    const iceImg = document.querySelector('.feature-bg img');
+    if (iceImg && site.ice_image) iceImg.src = site.ice_image;
+    const iceP = document.querySelector('.feature-content p');
+    if (iceP) iceP.textContent = site.ice_description;
+
+    // ── Weather ──
+    const wxCards = document.querySelectorAll('.wx-value');
+    const wxDetails = document.querySelectorAll('.wx-detail');
+    if (wxCards[0]) wxCards[0].textContent = weather.air_temp;
+    if (wxCards[1]) wxCards[1].textContent = weather.wind_speed;
+    if (wxCards[2]) wxCards[2].textContent = weather.barometer;
+    if (wxCards[3]) wxCards[3].textContent = weather.moon_phase;
+    if (wxDetails[0]) wxDetails[0].textContent = weather.air_temp_feels;
+    if (wxDetails[1]) wxDetails[1].innerHTML = weather.wind_detail;
+    if (wxDetails[2]) wxDetails[2].textContent = weather.barometer_detail;
+    if (wxDetails[3]) wxDetails[3].textContent = weather.moon_detail;
+    const biteScore = document.querySelector('.bite-score');
+    if (biteScore) biteScore.textContent = weather.bite_score;
+    const biteH3 = document.querySelector('.bite-info h3');
+    if (biteH3) biteH3.textContent = "TODAY'S BITE FORECAST: " + weather.bite_rating;
+    const biteP = document.querySelector('.bite-info p');
+    if (biteP) biteP.textContent = weather.bite_summary;
+    const biteGauge = document.querySelector('.bite-gauge');
+    if (biteGauge) {
+      const pct = (weather.bite_score / 10) * 100;
+      biteGauge.style.background = `conic-gradient(var(--moss) 0% ${pct}%, var(--sand) ${pct}% 100%)`;
+    }
+    const speciesTags = document.querySelector('.bite-species');
+    if (speciesTags) {
+      speciesTags.innerHTML = [
+        ['Walleye', weather.species_walleye],
+        ['Smallmouth', weather.species_smallmouth],
+        ['Panfish', weather.species_panfish],
+        ['Musky', weather.species_musky]
+      ].map(([name, status]) => `<span class="species-tag">${name} — ${status}</span>`).join('');
+    }
+
+    // ── Fish Map Pins ──
+    const pinContainer = document.querySelector('.map-svg');
+    if (pinContainer && fishmap.length) {
+      // Remove existing pins
+      pinContainer.querySelectorAll('.map-pin').forEach(p => p.remove());
+      // Add from data
+      fishmap.forEach(pin => {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'map-pin');
+        g.setAttribute('filter', 'url(#glow)');
+        g.onclick = (e) => showPopup(e, pin.species, pin.title, pin.angler, pin.location, pin.date);
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', pin.x);
+        circle.setAttribute('cy', pin.y);
+        circle.setAttribute('r', pin.size);
+        circle.setAttribute('class', 'pin-dot ' + pin.species);
+        g.appendChild(circle);
+        pinContainer.appendChild(g);
+      });
+    }
+
+    // ── Fish Wall ──
+    const fishGrid = document.querySelector('.fishwall-grid');
+    const pinSvg = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
+    if (fishGrid && fishwall.length) {
+      fishGrid.innerHTML = fishwall.map(f => `
+        <div class="fish-card${f.featured ? ' featured' : ''}">
+          <img class="fish-card-img" src="${f.image}" alt="${f.species}">
+          ${f.badge ? `<div class="fish-card-badge">${f.badge}</div>` : ''}
+          <div class="fish-card-info">
+            <div class="fish-card-species">${f.species}</div>
+            <div class="fish-card-angler">${f.featured ? 'Caught by ' : ''}${f.angler}</div>
+            <div class="fish-card-location">${pinSvg}${f.location}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ── Social Grid ──
+    const socialGrid = document.querySelector('.social-grid');
+    if (socialGrid && social.length) {
+      socialGrid.innerHTML = social.map(s => `
+        <div class="social-tile"><img src="${s.image}" alt="${s.alt}"></div>
+      `).join('');
+    }
+
+    // ── Social Handles ──
+    const handles = document.querySelector('.social-handles');
+    if (handles) {
+      handles.innerHTML = `
+        <a href="${site.instagram_main}" class="social-handle">@two_friends_fishing</a>
+        <a href="${site.instagram_scott}" class="social-handle">@2ff_scott</a>
+        ${site.youtube_url ? `<a href="${site.youtube_url}" class="social-handle">YouTube</a>` : '<a href="#" class="social-handle">YouTube</a>'}
+        ${site.tiktok_url ? `<a href="${site.tiktok_url}" class="social-handle">TikTok</a>` : '<a href="#" class="social-handle">TikTok</a>'}
+      `;
+    }
+
+    // ── Newsletter ──
+    const nlH2 = document.querySelector('.newsletter .section-title');
+    if (nlH2) nlH2.textContent = site.newsletter_heading;
+    const nlP = document.querySelector('.newsletter p');
+    if (nlP) nlP.textContent = site.newsletter_description;
+
+    // ── Footer ──
+    const footerText = document.querySelector('.footer-text');
+    if (footerText) footerText.innerHTML = site.footer_text;
+
+  } catch (err) {
+    console.log('Data loading note:', err.message, '— using default HTML content');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadSiteData);
+
+// ── Map Popup ──
+function showPopup(event,species,title,angler,location,date){
+  const popup=document.getElementById('mapPopup');
+  const container=document.getElementById('mapContainer');
+  const rect=container.getBoundingClientRect();
+  document.getElementById('popupHeader').style.background=`linear-gradient(135deg, var(--slate-water), ${species==='walleye'?'#8a7a30':species==='bass'?'#4a5a30':species==='musky'?'#7a3a2a':'var(--slate-water)'})`;
+  document.getElementById('popupEmoji').textContent=species==='musky'?'🦈':'🐟';
+  document.getElementById('popupSpecies').textContent=title;
+  document.getElementById('popupAngler').textContent=angler;
+  document.getElementById('popupLocation').textContent='📍 '+location+' • '+date;
+  const x=event.clientX-rect.left;
+  const y=event.clientY-rect.top;
+  popup.style.left=Math.min(x+15,rect.width-260)+'px';
+  popup.style.top=Math.min(y-60,rect.height-200)+'px';
+  popup.classList.add('active');
+}
+document.getElementById('mapContainer').addEventListener('click',function(e){
+  if(!e.target.closest('.map-pin')&&!e.target.closest('.map-popup')){
+    document.getElementById('mapPopup').classList.remove('active');
+  }
+});
+</script>
+
+</body>
+</html>

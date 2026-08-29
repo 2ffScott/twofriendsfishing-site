@@ -1,0 +1,18 @@
+{
+  "air_temp": "47°F",
+  "air_temp_feels": "Feels like 42°F",
+  "wind_speed": "8 MPH",
+  "wind_detail": "SSW • Gusts to 14",
+  "barometer": "30.12",
+  "barometer_detail": "Falling slowly ↓",
+  "moon_phase": "Waxing",
+  "moon_detail": "68% illumination",
+  "bite_score": 7.2,
+  "bite_rating": "GOOD",
+  "bite_summary": "Falling barometric pressure and overcast skies are setting up well for active feeding windows. Best action expected in the early morning and late afternoon. South winds will push baitfish into north-facing shorelines — work those windblown banks.",
+  "species_walleye": "Active",
+  "species_smallmouth": "Moderate",
+  "species_panfish": "Good",
+  "species_musky": "Slow",
+  "last_updated": "2026-05-02"
+}

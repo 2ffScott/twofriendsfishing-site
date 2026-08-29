@@ -1,0 +1,32 @@
+[
+  {
+    "name": "NuCanoe Unlimited",
+    "subtitle": "Scott's primary platform",
+    "image": "images/nucanoe-unlimited.webp",
+    "featured": true
+  },
+  {
+    "name": "HawkEye FishTrax",
+    "subtitle": "Castable fish finder",
+    "image": "images/hawkeye-fishtrax.webp",
+    "featured": false
+  },
+  {
+    "name": "Bonafide SS127",
+    "subtitle": "Adam's primary platform",
+    "image": "images/adam-kayak.webp",
+    "featured": false
+  },
+  {
+    "name": "Transducer Arm",
+    "subtitle": "Custom mount system",
+    "image": "images/transducer-arm.webp",
+    "featured": false
+  },
+  {
+    "name": "Eskimo Ice Shelter",
+    "subtitle": "Hard-water essentials",
+    "image": "images/eskimo-shelter.webp",
+    "featured": false
+  }
+]
