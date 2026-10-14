@@ -68,6 +68,12 @@ content:
       - name: tiktok_url
         label: TikTok URL
         type: string
+      - name: youtube_api_key
+        label: YouTube API Key
+        type: string
+      - name: youtube_channel_id
+        label: YouTube Channel ID
+        type: string
       - name: footer_text
         label: Footer Text
         type: string
@@ -160,6 +166,12 @@ content:
         type: string
       - name: species_musky
         label: Musky Activity
+        type: string
+      - name: species_largemouth
+        label: Largemouth Activity
+        type: string
+      - name: species_northernpike
+        label: Northern Pike Activity
         type: string
       - name: last_updated
         label: Last Updated

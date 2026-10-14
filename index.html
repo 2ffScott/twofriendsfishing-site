@@ -138,6 +138,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,43,28,0.9
 .bite-species{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
 .species-tag{font-size:.7rem;padding:.3rem .7rem;border-radius:20px;background:var(--pine);color:var(--cream);letter-spacing:.5px}
 .wx-disclaimer{font-size:.7rem;color:var(--stone);text-align:center;margin-top:1.5rem;font-style:italic}
+.wx-zip{display:flex;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap;align-items:center}
+.wx-zip input{padding:.7rem 1rem;font-family:'DM Sans',sans-serif;font-size:.85rem;border:1px solid var(--sand);border-radius:4px;background:#fff;color:var(--text);width:230px}
+.wx-zip button{padding:.7rem 1.3rem;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:1.5px;background:var(--pine);color:#fff;border:1px solid var(--pine);border-radius:4px;cursor:pointer}
+.wx-zip button:hover{background:var(--pine-deep)}
+.wx-zip button[type="button"]{background:transparent;color:var(--pine);border-color:var(--pine)}
+.wx-zip-error{color:#a8542f;font-size:.8rem;margin-top:.5rem}
 @keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(107,124,74,.6)}70%{box-shadow:0 0 0 8px rgba(107,124,74,0)}100%{box-shadow:0 0 0 0 rgba(107,124,74,0)}}
 .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--moss);margin-right:.4rem;animation:livePulse 2s infinite;vertical-align:middle}
 
@@ -309,7 +315,7 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
 <section class="episodes" id="episodes">
   <div class="section-tag">Latest from the channel</div>
   <h2 class="section-title">EPISODES & VIDEOS</h2>
-  <p class="section-sub">New episodes every week — kayak fishing trips, ice fishing adventures, gear breakdowns, and behind-the-scenes from our studio.</p>
+  <p class="section-sub">New episodes every week — kayak fishing trips, ice fishing adventures, gear breakdowns, and behind-the-scenes from our studio. <a href="https://www.youtube.com/@Two_Friends_Fishing" target="_blank" rel="noopener">Watch on YouTube &rarr;</a></p>
   <div class="video-grid">
     <div class="video-card">
       <img src="episode-studio-1.jpg" alt="Studio episode">
@@ -385,7 +391,13 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
     <div class="weather-header">
       <div class="section-tag"><span class="live-dot"></span> Live conditions</div>
       <h2 class="section-title">FISHING WEATHER REPORT</h2>
-      <p style="color:var(--text-mid);font-family:'Source Serif 4',serif;font-weight:300;font-size:.9rem;max-width:500px">Real-time conditions that matter to anglers. Updated from NOAA &amp; NWS public data for central Wisconsin waters.</p>
+      <p style="color:var(--text-mid);font-family:'Source Serif 4',serif;font-weight:300;font-size:.9rem;max-width:560px">Real-time conditions that matter to anglers &mdash; currently showing <strong id="wx-location">Appleton, WI</strong>. Updated from NOAA &amp; NWS public data.</p>
+      <form id="wx-zip-form" class="wx-zip" autocomplete="off">
+        <input id="wx-zip-input" inputmode="numeric" maxlength="10" placeholder="ZIP code for your waters" aria-label="ZIP code">
+        <button type="submit">Get local forecast</button>
+        <button type="button" id="wx-geo-btn">Use my location</button>
+      </form>
+      <p id="wx-zip-error" class="wx-zip-error" hidden></p>
     </div>
     <div class="weather-grid">
       <div class="wx-card"><span class="wx-icon">🌡️</span><div class="wx-label">Air Temp</div><div class="wx-value">47°F</div><div class="wx-detail">Feels like 42°F</div></div>
@@ -574,29 +586,21 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
 <script>
 // ══════════════════════════════════════════════════════
 /* ════════════════════════════════════════════════════════════════
- * fetchLiveWeather() — drop-in live NWS provider for loadSiteData()
- * Two Friends Fishing · prepared 2026-10-14, NOT YET DEPLOYED
- *
- * Replaces:  fetch('weather.json').then(r => r.json())
- * With:      fetchLiveWeather()
- *
- * It returns a Promise resolving to the EXACT weather.json schema the
- * existing render code expects, built from live National Weather Service
- * data (KATW station + Appleton gridpoint — free, no key, CORS-enabled).
- * On any NWS failure it falls back to data/weather.json; if that also
- * fails, the rejection propagates and loadSiteData()'s existing catch
- * leaves the hardcoded widget content in place (never a blank widget).
+ * LIVE INTEGRATIONS — NWS bite forecast (location-aware) + YouTube uploads
+ * Prepared 2026-10-14. Weather defaults to Appleton, WI; visitors can
+ * enter a ZIP or use geolocation. YouTube needs site.youtube_api_key.
  * ════════════════════════════════════════════════════════════════ */
 
-var NWS = {
-  stationId: "KATW",           // Appleton-Outagamie airport, ~7 km from Appleton WI
-  lat: 44.2619, lon: -88.4154,
-  timeoutMs: 8000,
+/* ── NWS weather ── */
+
+var TFF_WX = {
+  defaultLat: 44.2619, defaultLon: -88.4154, defaultLabel: "Appleton, WI",
+  timeoutMs: 8000, storeKey: "tff-wx-location"
 };
 
 function nwsFetch(url) {
   var ctrl = new AbortController();
-  var t = setTimeout(function () { ctrl.abort(); }, NWS.timeoutMs);
+  var t = setTimeout(function () { ctrl.abort(); }, TFF_WX.timeoutMs);
   return fetch(url, { signal: ctrl.signal, headers: { "Accept": "application/geo+json, application/json" } })
     .then(function (r) { clearTimeout(t); if (!r.ok) throw new Error("NWS " + r.status); return r.json(); })
     .catch(function (e) { clearTimeout(t); throw e; });
@@ -629,6 +633,29 @@ function _moonInfo(now) {
   var names = ["New Moon","Waxing Crescent","First Quarter","Waxing Gibbous","Full Moon","Waning Gibbous","Last Quarter","Waning Crescent"];
   return { phase: names[Math.floor(((age / synodic) * 8) + 0.5) % 8], illumination: Math.round(illum * 100) };
 }
+function _sunTimes(lat, lon, date) {
+  // Compact NOAA solar calculation. Returns {sunrise: Date, sunset: Date} (UTC instants).
+  var rad = Math.PI / 180;
+  var N = Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 0)) / 86400000);
+  var lngHour = lon / 15;
+  function calc(isRise) {
+    var t = N + ((isRise ? 6 : 18) - lngHour) / 24;
+    var M = (0.9856 * t) - 3.289;
+    var L = (M + (1.916 * Math.sin(M * rad)) + (0.020 * Math.sin(2 * M * rad)) + 282.634) % 360;
+    if (L < 0) L += 360;
+    var RA = (Math.atan(0.91764 * Math.tan(L * rad)) / rad + 360) % 360;
+    var Lq = Math.floor(L / 90) * 90, RAq = Math.floor(RA / 90) * 90;
+    RA = (RA + (Lq - RAq)) / 15;
+    var sinDec = 0.39782 * Math.sin(L * rad), cosDec = Math.cos(Math.asin(sinDec));
+    var cosH = (Math.cos(90.833 * rad) - (sinDec * Math.sin(lat * rad))) / (cosDec * Math.cos(lat * rad));
+    if (cosH > 1 || cosH < -1) return null;
+    var H = (isRise ? 360 - Math.acos(cosH) / rad : Math.acos(cosH) / rad) / 15;
+    var T = H + RA - (0.06571 * t) - 6.622;
+    var UT = (((T - lngHour) % 24) + 24) % 24;
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), Math.floor(UT), Math.floor((UT % 1) * 60)));
+  }
+  return { sunrise: calc(true), sunset: calc(false) };
+}
 function _biteScore(d) {
   var s = 5.0;
   if (d.trendPer3h <= -0.06) s += 2.0;
@@ -656,14 +683,29 @@ function _speciesRatings(d, score) {
     if (v >= 4.5) return "Moderate";
     return "Slow";
   };
-  var w = score, sm = score, p = score, m = score;
+  var w = score, sm = score, p = score, m = score, l = score, np = score;
+  var overcast = /overcast|cloudy|cloud/i.test(d.sky || "");
+  var falling = d.trendLabel === "Falling" || d.trendLabel === "Falling fast";
   if (d.tempF >= 45 && d.tempF <= 62) { w += 1; sm += 0.5; }
-  if (d.trendLabel === "Falling" || d.trendLabel === "Falling fast") { w += 0.5; m -= 0.5; }
-  if (/overcast|cloudy|cloud/i.test(d.sky || "")) { w += 0.5; sm += 0.5; }
-  if (d.windMph >= 8 && d.windMph <= 18) w += 0.5;
+  if (falling) { w += 0.5; m -= 0.5; np += 0.5; }
+  if (overcast) { w += 0.5; sm += 0.5; l += 0.5; }
+  if (d.windMph >= 8 && d.windMph <= 18) { w += 0.5; np += 0.5; }
   if (d.tempF > 72) { p += 1; m += 0.5; }
   if (d.tempF < 40) { m -= 1; sm -= 0.5; }
-  return { species_walleye: bucket(w), species_smallmouth: bucket(sm), species_panfish: bucket(p), species_musky: bucket(m) };
+  // Largemouth: warm-water ambush, best 60–78°F, hunts hardest in low light
+  if (d.tempF >= 60 && d.tempF <= 78) l += 1.25;
+  else if (d.tempF >= 52 && d.tempF < 60) l += 0.5;
+  else if (d.tempF < 45) l -= 1.25;
+  if (d.minutesToSunEdge != null && d.minutesToSunEdge <= 90) l += 0.75;
+  // Northern pike: cool-water predator, best 50–65°F
+  if (d.tempF >= 50 && d.tempF <= 65) np += 1.25;
+  else if (d.tempF > 65 && d.tempF <= 72) np += 0.25;
+  else if (d.tempF > 75) np -= 0.75;
+  return {
+    species_walleye: bucket(w), species_smallmouth: bucket(sm),
+    species_panfish: bucket(p), species_musky: bucket(m),
+    species_largemouth: bucket(l), species_northernpike: bucket(np)
+  };
 }
 function _biteCopy(d) {
   var bits = [], sky = (d.sky || "").toLowerCase();
@@ -677,18 +719,28 @@ function _biteCopy(d) {
   return bits.slice(0, 3).join(" ");
 }
 
-function fetchLiveWeather() {
-  var obsUrl = "https://api.weather.gov/stations/" + NWS.stationId + "/observations/latest";
-  var histUrl = "https://api.weather.gov/stations/" + NWS.stationId + "/observations?limit=8";
-  var pointUrl = "https://api.weather.gov/points/" + NWS.lat + "," + NWS.lon;
+function resolveNWSStation(lat, lon) {
+  return nwsFetch("https://api.weather.gov/points/" + lat.toFixed(4) + "," + lon.toFixed(4))
+    .then(function (pt) {
+      var props = pt.properties || {};
+      var rel = (props.relativeLocation || {}).properties || {};
+      var label = (rel.city && rel.state) ? rel.city + ", " + rel.state : null;
+      if (!props.observationStations) throw new Error("no stations url");
+      return nwsFetch(props.observationStations).then(function (s) {
+        var feats = s.features || [];
+        if (!feats.length) throw new Error("no stations");
+        return { stationId: feats[0].properties.stationIdentifier, label: label };
+      });
+    });
+}
 
-  function fallback() { return fetch('weather.json').then(function (r) { return r.json(); }); }
-
-  return Promise.all([nwsFetch(obsUrl), nwsFetch(histUrl), nwsFetch(pointUrl)])
-    .then(function (res) {
-      var p = res[0].properties || {};
-      var feats = (res[1].features || []).map(function (f) { return f.properties || {}; });
-      var astro = ((res[2].properties || {}).astronomicalData) || {};
+function fetchNWSWeather(lat, lon) {
+  return resolveNWSStation(lat, lon).then(function (res) {
+    var obsUrl = "https://api.weather.gov/stations/" + res.stationId + "/observations/latest";
+    var histUrl = "https://api.weather.gov/stations/" + res.stationId + "/observations?limit=8";
+    return Promise.all([nwsFetch(obsUrl), nwsFetch(histUrl)]).then(function (arr) {
+      var p = arr[0].properties || {};
+      var feats = (arr[1].features || []).map(function (f) { return f.properties || {}; });
       var now = new Date();
 
       var tempC = p.temperature && p.temperature.value;
@@ -716,9 +768,10 @@ function fetchLiveWeather() {
       }
 
       var minutesToSunEdge = null;
-      [["sunrise", astro.sunrise], ["sunset", astro.sunset]].forEach(function (pair) {
-        if (!pair[1]) return;
-        var mins = Math.abs((now - new Date(pair[1])) / 60000);
+      var sun = _sunTimes(lat, lon, now);
+      [sun.sunrise, sun.sunset].forEach(function (t) {
+        if (!t) return;
+        var mins = Math.abs((now - t) / 60000);
         if (minutesToSunEdge == null || mins < minutesToSunEdge) minutesToSunEdge = mins;
       });
 
@@ -732,7 +785,7 @@ function fetchLiveWeather() {
       var r0 = function (v) { return v == null ? "—" : Math.round(v).toString(); };
       var r1 = function (v) { return v == null ? "—" : (Math.round(v * 10) / 10).toString(); };
 
-      return {
+      var out = {
         air_temp: tempF == null ? "—" : r0(tempF) + "°F",
         air_temp_feels: feels == null ? "—" : "Feels like " + r0(feels) + "°F",
         wind_speed: windMph == null ? "—" : r0(windMph) + " MPH",
@@ -748,11 +801,164 @@ function fetchLiveWeather() {
         species_smallmouth: species.species_smallmouth,
         species_panfish: species.species_panfish,
         species_musky: species.species_musky,
-        last_updated: now.toISOString().slice(0, 10),
+        species_largemouth: species.species_largemouth,
+        species_northernpike: species.species_northernpike,
+        last_updated: now.toISOString().slice(0, 10)
       };
-    })
-    .catch(function () { return fallback(); }); // NWS failed → static JSON → render code unchanged
+      out._label = res.label;
+      return out;
+    });
+  });
 }
+
+function renderWeather(weather) {
+  var wxCards = document.querySelectorAll('.wx-value');
+  var wxDetails = document.querySelectorAll('.wx-detail');
+  if (wxCards[0]) wxCards[0].textContent = weather.air_temp;
+  if (wxCards[1]) wxCards[1].textContent = weather.wind_speed;
+  if (wxCards[2]) wxCards[2].textContent = weather.barometer;
+  if (wxCards[3]) wxCards[3].textContent = weather.moon_phase;
+  if (wxDetails[0]) wxDetails[0].textContent = weather.air_temp_feels;
+  if (wxDetails[1]) wxDetails[1].innerHTML = weather.wind_detail;
+  if (wxDetails[2]) wxDetails[2].textContent = weather.barometer_detail;
+  if (wxDetails[3]) wxDetails[3].textContent = weather.moon_detail;
+  var biteScore = document.querySelector('.bite-score');
+  if (biteScore) biteScore.textContent = weather.bite_score;
+  var biteH3 = document.querySelector('.bite-info h3');
+  if (biteH3) biteH3.textContent = "TODAY'S BITE FORECAST: " + weather.bite_rating;
+  var biteP = document.querySelector('.bite-info p');
+  if (biteP) biteP.textContent = weather.bite_summary;
+  var biteGauge = document.querySelector('.bite-gauge');
+  if (biteGauge) {
+    var pct = (weather.bite_score / 10) * 100;
+    biteGauge.style.background = "conic-gradient(var(--moss) 0% " + pct + "%, var(--sand) " + pct + "% 100%)";
+  }
+  var speciesTags = document.querySelector('.bite-species');
+  if (speciesTags) {
+    speciesTags.innerHTML = [
+      ["Walleye", weather.species_walleye],
+      ["Smallmouth", weather.species_smallmouth],
+      ["Largemouth", weather.species_largemouth],
+      ["Northern Pike", weather.species_northernpike],
+      ["Panfish", weather.species_panfish],
+      ["Musky", weather.species_musky]
+    ].map(function (pair) {
+      return '<span class="species-tag">' + pair[0] + " — " + pair[1] + "</span>";
+    }).join("");
+  }
+}
+
+function setWxLabel(t) { var el = document.getElementById("wx-location"); if (el) el.textContent = t; }
+function saveWxLoc(o) { try { localStorage.setItem(TFF_WX.storeKey, JSON.stringify(o)); } catch (e) {} }
+function readWxLoc() { try { var v = JSON.parse(localStorage.getItem(TFF_WX.storeKey)); return (v && v.lat && v.lon) ? v : null; } catch (e) { return null; } }
+
+function loadWeatherFor(label, lat, lon) {
+  setWxLabel(label);
+  return fetchNWSWeather(lat, lon).then(function (w) {
+    renderWeather(w);
+    var finalLabel = w._label || label;
+    setWxLabel(finalLabel);
+    saveWxLoc({ label: finalLabel, lat: lat, lon: lon });
+    return w;
+  });
+}
+
+function fetchLiveWeather() {
+  // Initial load hook for loadSiteData(): honors a saved visitor location.
+  var saved = readWxLoc();
+  var label = TFF_WX.defaultLabel, lat = TFF_WX.defaultLat, lon = TFF_WX.defaultLon;
+  if (saved) { label = saved.label || label; lat = saved.lat; lon = saved.lon; }
+  return loadWeatherFor(label, lat, lon).catch(function () {
+    return fetch("weather.json").then(function (r) { return r.json(); });
+  });
+}
+
+(function initWxLocator() {
+  var form = document.getElementById("wx-zip-form");
+  if (!form) return;
+  var input = document.getElementById("wx-zip-input");
+  var err = document.getElementById("wx-zip-error");
+  function showErr(m) { err.textContent = m; err.hidden = false; }
+  function clearErr() { err.hidden = true; }
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); clearErr();
+    var zip = (input.value || "").trim();
+    var prevLabel = document.getElementById("wx-location");
+    prevLabel = prevLabel ? prevLabel.textContent : TFF_WX.defaultLabel;
+    if (!/^\d{5}(-\d{4})?$/.test(zip)) { showErr("Enter a valid 5-digit ZIP code."); return; }
+    setWxLabel("Looking up " + zip + "…");
+    nwsFetch("https://api.zippopotam.us/us/" + zip).then(function (z) {
+      var pl = (z.places || [])[0];
+      if (!pl) throw new Error("zip");
+      var label = pl["place name"] + ", " + pl.state;
+      return loadWeatherFor(label, parseFloat(pl.latitude), parseFloat(pl.longitude));
+    }).catch(function () { showErr("Couldn\u2019t find that ZIP \u2014 try another."); setWxLabel(prevLabel); });
+  });
+  var geo = document.getElementById("wx-geo-btn");
+  if (geo) {
+    if (!navigator.geolocation) { geo.style.display = "none"; }
+    else geo.addEventListener("click", function () {
+      clearErr(); setWxLabel("Locating…");
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        loadWeatherFor("Your location", pos.coords.latitude, pos.coords.longitude)
+          .catch(function () { showErr("Couldn\u2019t load weather for your location."); });
+      }, function () { showErr("Location access was denied."); }, { timeout: 10000 });
+    });
+  }
+})();
+
+/* ── YouTube uploads ── */
+
+function _escapeHtml(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+function paintVideos(grid, items) {
+  grid.innerHTML = items.map(function (v) {
+    var safeTitle = _escapeHtml(v.title);
+    return '<div class="video-card" onclick="window.open(\'' + v.url + '\',\'_blank\')">' +
+      '<img src="' + v.thumb + '" alt="' + safeTitle + '" loading="lazy">' +
+      '<div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>' +
+      '<div class="video-card-info"><div class="video-card-title">' + safeTitle + "</div>" +
+      '<div class="video-card-meta">YouTube &bull; ' + _escapeHtml(v.date) + "</div></div></div>";
+  }).join("");
+}
+
+function renderChannelVideos(grid, site) {
+  // Resolves with painted grid, or rejects -> caller falls back to episodes.json.
+  return new Promise(function (resolve, reject) {
+    if (!site.youtube_api_key || !site.youtube_channel_id) return reject(new Error("no key"));
+    var cache = null;
+    try { cache = JSON.parse(localStorage.getItem("tff-yt")); } catch (e) {}
+    if (cache && (Date.now() - cache.ts) < 6 * 3600 * 1000 && cache.items && cache.items.length) {
+      paintVideos(grid, cache.items); return resolve();
+    }
+    var playlistId = "UU" + site.youtube_channel_id.slice(2);
+    var url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails" +
+      "&playlistId=" + playlistId + "&maxResults=9&key=" + site.youtube_api_key;
+    fetch(url).then(function (r) { if (!r.ok) throw new Error("yt " + r.status); return r.json(); })
+      .then(function (j) {
+        var items = (j.items || []).map(function (it) {
+          var s = it.snippet || {}, cd = it.contentDetails || {};
+          var th = s.thumbnails || {};
+          var thumb = (th.medium || th.high || th.default || {}).url || "";
+          return {
+            title: s.title || "Untitled",
+            thumb: thumb,
+            date: s.publishedAt ? new Date(s.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "",
+            url: cd.videoId ? "https://www.youtube.com/watch?v=" + cd.videoId : ""
+          };
+        }).filter(function (v) { return v.url && v.thumb; });
+        if (!items.length) throw new Error("empty");
+        try { localStorage.setItem("tff-yt", JSON.stringify({ ts: Date.now(), items: items })); } catch (e) {}
+        paintVideos(grid, items); resolve();
+      })
+      .catch(reject);
+  });
+}
+
 
 // DATA-DRIVEN RENDERING — loads content from JSON files
 // Edit content via Pages CMS at app.pagescms.org
@@ -787,10 +993,12 @@ async function loadSiteData() {
     if (aboutPs[0]) aboutPs[0].textContent = site.about_paragraph_1;
     if (aboutPs[1]) aboutPs[1].textContent = site.about_paragraph_2;
 
-    // ── Episodes ──
+    // ── Episodes: live YouTube uploads first, episodes.json fallback ──
     const videoGrid = document.querySelector('.video-grid');
-    if (videoGrid && episodes.length) {
-      videoGrid.innerHTML = episodes.map(ep => `
+    if (videoGrid) {
+      renderChannelVideos(videoGrid, site).catch(function () {
+        if (episodes.length) {
+          videoGrid.innerHTML = episodes.map(ep => `
         <div class="video-card" ${ep.youtube_url ? `onclick="window.open('${ep.youtube_url}','_blank')"` : ''}>
           <img src="${ep.thumbnail}" alt="${ep.title}">
           <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
@@ -800,6 +1008,8 @@ async function loadSiteData() {
           </div>
         </div>
       `).join('');
+        }
+      });
     }
 
     // ── Gear ──
@@ -820,36 +1030,7 @@ async function loadSiteData() {
     if (iceP) iceP.textContent = site.ice_description;
 
     // ── Weather ──
-    const wxCards = document.querySelectorAll('.wx-value');
-    const wxDetails = document.querySelectorAll('.wx-detail');
-    if (wxCards[0]) wxCards[0].textContent = weather.air_temp;
-    if (wxCards[1]) wxCards[1].textContent = weather.wind_speed;
-    if (wxCards[2]) wxCards[2].textContent = weather.barometer;
-    if (wxCards[3]) wxCards[3].textContent = weather.moon_phase;
-    if (wxDetails[0]) wxDetails[0].textContent = weather.air_temp_feels;
-    if (wxDetails[1]) wxDetails[1].innerHTML = weather.wind_detail;
-    if (wxDetails[2]) wxDetails[2].textContent = weather.barometer_detail;
-    if (wxDetails[3]) wxDetails[3].textContent = weather.moon_detail;
-    const biteScore = document.querySelector('.bite-score');
-    if (biteScore) biteScore.textContent = weather.bite_score;
-    const biteH3 = document.querySelector('.bite-info h3');
-    if (biteH3) biteH3.textContent = "TODAY'S BITE FORECAST: " + weather.bite_rating;
-    const biteP = document.querySelector('.bite-info p');
-    if (biteP) biteP.textContent = weather.bite_summary;
-    const biteGauge = document.querySelector('.bite-gauge');
-    if (biteGauge) {
-      const pct = (weather.bite_score / 10) * 100;
-      biteGauge.style.background = `conic-gradient(var(--moss) 0% ${pct}%, var(--sand) ${pct}% 100%)`;
-    }
-    const speciesTags = document.querySelector('.bite-species');
-    if (speciesTags) {
-      speciesTags.innerHTML = [
-        ['Walleye', weather.species_walleye],
-        ['Smallmouth', weather.species_smallmouth],
-        ['Panfish', weather.species_panfish],
-        ['Musky', weather.species_musky]
-      ].map(([name, status]) => `<span class="species-tag">${name} — ${status}</span>`).join('');
-    }
+    renderWeather(weather);
 
     // ── Fish Map Pins ──
     const pinContainer = document.querySelector('.map-svg');
