@@ -1,10 +1,12 @@
-media: images
+media:
+  input: /
+  output: /
 
 content:
   - name: site
     label: Site Settings
     type: file
-    path: data/site.json
+    path: site.json
     fields:
       - name: site_name
         label: Site Name
@@ -73,7 +75,7 @@ content:
   - name: episodes
     label: Episodes
     type: file
-    path: data/episodes.json
+    path: episodes.json
     fields:
       - name: title
         label: Episode Title
@@ -94,7 +96,7 @@ content:
   - name: gear
     label: Gear
     type: file
-    path: data/gear.json
+    path: gear.json
     fields:
       - name: name
         label: Gear Name
@@ -112,7 +114,7 @@ content:
   - name: weather
     label: Weather & Bite Forecast
     type: file
-    path: data/weather.json
+    path: weather.json
     fields:
       - name: air_temp
         label: Air Temperature
@@ -166,7 +168,7 @@ content:
   - name: fishwall
     label: Fish Wall
     type: file
-    path: data/fishwall.json
+    path: fishwall.json
     fields:
       - name: species
         label: Species & Size
@@ -190,7 +192,7 @@ content:
   - name: fishmap
     label: Fish Map Pins
     type: file
-    path: data/fishmap.json
+    path: fishmap.json
     fields:
       - name: species
         label: Species Type
@@ -226,7 +228,7 @@ content:
   - name: social
     label: Social Grid Images
     type: file
-    path: data/social.json
+    path: social.json
     fields:
       - name: image
         label: Image

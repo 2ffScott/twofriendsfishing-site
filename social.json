@@ -1,6 +1,6 @@
 [
-  { "image": "images/social-1.jpg", "alt": "Studio selfie" },
-  { "image": "images/social-2.jpg", "alt": "Filming" },
-  { "image": "images/social-3.webp", "alt": "NuCanoe in garage" },
-  { "image": "images/social-4.jpg", "alt": "Studio set" }
+  { "image": "social-1.jpg", "alt": "Studio selfie" },
+  { "image": "social-2.jpg", "alt": "Filming" },
+  { "image": "social-3.webp", "alt": "NuCanoe in garage" },
+  { "image": "social-4.jpg", "alt": "Studio set" }
 ]

@@ -3,21 +3,21 @@
     "title": "Season Opener Preview",
     "episode_number": 12,
     "duration": "18 min",
-    "thumbnail": "images/episode-studio-1.jpg",
+    "thumbnail": "episode-studio-1.jpg",
     "youtube_url": ""
   },
   {
     "title": "Winnebago Ice Fishing",
     "episode_number": 11,
     "duration": "22 min",
-    "thumbnail": "images/episode-ice-fishing.jpg",
+    "thumbnail": "episode-ice-fishing.jpg",
     "youtube_url": ""
   },
   {
     "title": "Gear Talk: NuCanoe Setup",
     "episode_number": 10,
     "duration": "15 min",
-    "thumbnail": "images/episode-studio-2.jpg",
+    "thumbnail": "episode-studio-2.jpg",
     "youtube_url": ""
   }
 ]

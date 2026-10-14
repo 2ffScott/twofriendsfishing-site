@@ -11,11 +11,9 @@
 
 ### Step 2: Upload These Files
 1. In your new repo, click "Upload files"
-2. Drag the ENTIRE contents of this folder into the upload area:
-   - `index.html`
-   - `.pages.yml`
-   - `data/` folder (contains all JSON content files)
-   - `images/` folder (contains all photos)
+2. Drag the ENTIRE contents of this folder into the upload area
+   (all files live at the repo root — `index.html`, `.pages.yml`,
+   the JSON content files, and all photos side by side)
 3. Click "Commit changes"
 
 ### Step 3: Connect to Cloudflare Pages

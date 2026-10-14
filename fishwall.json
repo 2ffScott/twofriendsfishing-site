@@ -3,7 +3,7 @@
     "species": "Walleye — 24\"",
     "angler": "Scott",
     "location": "Lake Winnebago, WI",
-    "image": "images/catch-walleye.webp",
+    "image": "catch-walleye.webp",
     "featured": true,
     "badge": "CATCH OF THE WEEK"
   },
@@ -11,7 +11,7 @@
     "species": "Smallmouth — 18\"",
     "angler": "@kayak_kevin",
     "location": "Fox River",
-    "image": "images/catch-smallmouth.jpg",
+    "image": "catch-smallmouth.jpg",
     "featured": false,
     "badge": ""
   },
@@ -19,7 +19,7 @@
     "species": "Largemouth — 4.1 lbs",
     "angler": "@adam_shoots",
     "location": "Shawano Lake",
-    "image": "images/catch-largemouth.jpg",
+    "image": "catch-largemouth.jpg",
     "featured": false,
     "badge": ""
   },
@@ -27,7 +27,7 @@
     "species": "Bluegill — 10\"",
     "angler": "@panfish_paul",
     "location": "Lake Butte des Morts",
-    "image": "images/catch-bluegill.jpg",
+    "image": "catch-bluegill.jpg",
     "featured": false,
     "badge": ""
   },
@@ -35,7 +35,7 @@
     "species": "Crappie — 12\"",
     "angler": "@slab_city",
     "location": "Wolf River",
-    "image": "images/catch-crappie.jpg",
+    "image": "catch-crappie.jpg",
     "featured": false,
     "badge": ""
   }
