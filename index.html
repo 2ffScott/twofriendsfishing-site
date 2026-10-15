@@ -143,15 +143,17 @@
   </div>
 </section>
 
-<!-- ICE FISHING -->
-<section class="feature" id="ice">
-  <div class="feature-bg"><img src="ice-fishing-winnebago.jpg" alt="Lake Winnebago ice"></div>
-  <div class="feature-content">
-    <div class="section-tag">Hard water season</div>
-    <h2 class="section-title">ICE FISHING<br>WISCONSIN</h2>
-    <p>When the lakes freeze over, we don't stop. From Lake Winnebago sturgeon to panfish on the inland lakes, we're out there drilling holes and dropping lines all winter long.</p>
-    <a href="#episodes" class="btn btn-primary">Watch Ice Episodes</a>
-  </div>
+<!-- ICE FISHING (full page: ice-fishing.html) -->
+<section class="feature-link" id="ice">
+  <a href="ice-fishing.html" class="feature-link-card">
+    <div class="feature-bg"><img src="ice-fishing-winnebago.jpg" alt="Lake Winnebago ice" loading="lazy"></div>
+    <div class="feature-content">
+      <div class="section-tag">Hard water season</div>
+      <h2 class="section-title">ICE FISHING<br>WISCONSIN</h2>
+      <p>Sturgeon, walleye, panfish, and perch through the ice &mdash; our full hard-water guide.</p>
+      <span class="btn btn-primary">Explore Ice Fishing</span>
+    </div>
+  </a>
 </section>
 
 <!-- WEATHER REPORT -->
@@ -183,6 +185,7 @@
           <span class="species-tag">Walleye — Active</span>
           <span class="species-tag">Smallmouth — Moderate</span>
           <span class="species-tag">Panfish — Good</span>
+          <span class="species-tag">Perch — Good</span>
           <span class="species-tag">Musky — Slow</span>
         </div>
       </div>
@@ -325,7 +328,7 @@
     <li><a href="https://instagram.com/two_friends_fishing" target="_blank" rel="noopener">Instagram</a></li>
     <li><a href="https://www.tiktok.com/@twofriendsfishing" target="_blank" rel="noopener">TikTok</a></li>
     <li><a href="https://twofriendsfishing.substack.com" target="_blank" rel="noopener">Substack</a></li>
-    <li><a href="about.html">About</a></li>
+    <li><a href="about.html">About</a></li><li><a href="ice-fishing.html">Ice Fishing</a></li><li><a href="ice-fishing.html">Ice Fishing</a></li>
     <li><a href="field-notes.html">Field Notes</a></li>
     <li><a href="resources.html">Fishing Info</a></li>
     <li><a href="regulations.html">Regulations</a></li>
@@ -433,7 +436,7 @@ function _speciesRatings(d, score) {
     if (v >= 4.5) return "Moderate";
     return "Slow";
   };
-  var w = score, sm = score, p = score, m = score, l = score, np = score;
+  var w = score, sm = score, p = score, m = score, l = score, np = score, pe = score;
   var overcast = /overcast|cloudy|cloud/i.test(d.sky || "");
   var falling = d.trendLabel === "Falling" || d.trendLabel === "Falling fast";
   if (d.tempF >= 45 && d.tempF <= 62) { w += 1; sm += 0.5; }
@@ -447,6 +450,11 @@ function _speciesRatings(d, score) {
   else if (d.tempF >= 52 && d.tempF < 60) l += 0.5;
   else if (d.tempF < 45) l -= 1.25;
   if (d.minutesToSunEdge != null && d.minutesToSunEdge <= 90) l += 0.75;
+  // Yellow perch: cool-water schooler, best 55–70°F, stays active under ice
+  if (d.tempF >= 55 && d.tempF <= 70) pe += 1;
+  else if (d.tempF >= 45 && d.tempF < 55) pe += 0.5;
+  else if (d.tempF > 78) pe -= 0.75;
+  if (d.tempF < 40) pe += 0.5;
   // Northern pike: cool-water predator, best 50–65°F
   if (d.tempF >= 50 && d.tempF <= 65) np += 1.25;
   else if (d.tempF > 65 && d.tempF <= 72) np += 0.25;
@@ -454,7 +462,8 @@ function _speciesRatings(d, score) {
   return {
     species_walleye: bucket(w), species_smallmouth: bucket(sm),
     species_panfish: bucket(p), species_musky: bucket(m),
-    species_largemouth: bucket(l), species_northernpike: bucket(np)
+    species_largemouth: bucket(l), species_northernpike: bucket(np),
+    species_perch: bucket(pe)
   };
 }
 function _biteCopy(d) {
@@ -591,6 +600,7 @@ function renderWeather(weather) {
       ["Largemouth", weather.species_largemouth],
       ["Northern Pike", weather.species_northernpike],
       ["Panfish", weather.species_panfish],
+      ["Perch", weather.species_perch],
       ["Musky", weather.species_musky]
     ].map(function (pair) {
       return '<span class="species-tag">' + pair[0] + " — " + pair[1] + "</span>";
