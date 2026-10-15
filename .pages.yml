@@ -113,6 +113,12 @@ content:
       - name: image
         label: Image
         type: image
+      - name: product_url
+        label: Product Page URL
+        type: string
+      - name: image_credit
+        label: "Image Credit (e.g. Image: NuCanoe)"
+        type: string
       - name: featured
         label: Featured (large card)
         type: boolean
@@ -211,7 +217,10 @@ content:
         type: select
         options:
           - walleye
+          - smallmouth
+          - largemouth
           - bass
+          - pike
           - panfish
           - musky
           - trout
@@ -227,14 +236,35 @@ content:
       - name: date
         label: Date
         type: string
-      - name: x
-        label: Map X Position (0-800)
+      - name: lat
+        label: Latitude (e.g. 44.0012)
         type: number
-      - name: y
-        label: Map Y Position (0-400)
+      - name: lon
+        label: Longitude (e.g. -88.4308)
         type: number
       - name: size
         label: Pin Size (5-8)
+
+  - name: blog
+    label: Blog Posts (Field Notes)
+    type: file
+    path: blog.json
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: date
+        label: Date (e.g. Oct 14, 2026)
+        type: string
+      - name: tag
+        label: Tag (optional, e.g. Trip Notes)
+        type: string
+      - name: excerpt
+        label: Excerpt (short teaser)
+        type: text
+      - name: body
+        label: Body (full text, blank line between paragraphs)
+        type: text
         type: number
 
   - name: social

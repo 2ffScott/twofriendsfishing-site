@@ -2,31 +2,59 @@
   {
     "name": "NuCanoe Unlimited",
     "subtitle": "Scott's primary platform",
-    "image": "nucanoe-unlimited.webp",
+    "image": "gear-nucanoe-unlimited.jpg",
+    "product_url": "https://nucanoe.com/unlimited/",
+    "image_credit": "Image: NuCanoe",
     "featured": true
   },
   {
-    "name": "HawkEye FishTrax",
-    "subtitle": "Castable fish finder",
-    "image": "hawkeye-fishtrax.webp",
+    "name": "Garmin Striker 4",
+    "subtitle": "Scott & Adam's fish finder",
+    "image": "gear-garmin-striker4.jpg",
+    "product_url": "https://www.garmin.com/en-US/p/528812/",
+    "image_credit": "Image: Garmin",
     "featured": false
+  },
+  {
+    "name": "HawkEye FishTrax 1C",
+    "subtitle": "Scott's castable fish finder",
+    "image": "gear-hawkeye-fishtrax.gif",
+    "product_url": "https://hawkeyeelectronics.com/products/fishtrax-1c-fish-finder",
+    "image_credit": "Image: HawkEye Electronics"
   },
   {
     "name": "Bonafide SS127",
     "subtitle": "Adam's primary platform",
-    "image": "adam-kayak.webp",
+    "image": "gear-bonafide-ss127.png",
+    "product_url": "https://bonafidefishing.com/products/ss127-kayak",
+    "image_credit": "Image: Bonafide",
     "featured": false
+  },
+  {
+    "name": "NuCanoe GearPod",
+    "subtitle": "Scott's on-deck storage",
+    "image": "gear-nucanoe-gearpod.jpg",
+    "product_url": "https://shop.nucanoe.com/products/2400-nucanoe-gearpod",
+    "image_credit": "Image: NuCanoe"
+  },
+  {
+    "name": "YakAttack BlackPak Pro",
+    "subtitle": "Scott & Adam's tackle crate",
+    "image": "gear-yakattack-blackpak.jpg",
+    "product_url": "https://www.yakattack.us/blackpak-pro-kayak-fishing-crate-13-x-16/",
+    "image_credit": "Image: YakAttack"
+  },
+  {
+    "name": "YakAttack SideWinder",
+    "subtitle": "Scott's anchor line management",
+    "image": "gear-yakattack-sidewinder.jpg",
+    "product_url": "https://www.yakattack.us/sidewinder-anchor-line-reel-includes-track-hardware-and-75-of-550-paracord/",
+    "image_credit": "Image: YakAttack"
   },
   {
     "name": "Transducer Arm",
     "subtitle": "Custom mount system",
     "image": "transducer-arm.webp",
-    "featured": false
-  },
-  {
-    "name": "Eskimo Ice Shelter",
-    "subtitle": "Hard-water essentials",
-    "image": "eskimo-shelter.webp",
     "featured": false
   }
 ]

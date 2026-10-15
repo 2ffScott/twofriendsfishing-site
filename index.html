@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Two Friends Fishing | Wisconsin Kayak Fishing & Outdoors</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=Caveat:wght@500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 :root {
   --pine: #2c3e2d;
@@ -98,8 +100,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,43,28,0.9
 .gear-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
 .gear-gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:280px 280px;gap:.8rem}
 .gear-item{position:relative;border-radius:5px;overflow:hidden}
+.gear-item a{display:block;height:100%}
+.gear-credit{position:absolute;top:.45rem;right:.6rem;z-index:2;font-size:.58rem;letter-spacing:.5px;color:rgba(255,255,255,.65)}
 .gear-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
 .gear-item:hover img{transform:scale(1.04)}
+.gear-item.no-photo img{display:none}
 .gear-item:first-child{grid-row:span 2}
 .gear-item::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(0,0,0,.55))}
 .gear-label{position:absolute;bottom:.8rem;left:.8rem;z-index:2;font-family:'Bebas Neue',sans-serif;color:var(--cream);font-size:1.15rem;letter-spacing:1px}
@@ -155,22 +160,59 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,43,28,0.9
 .fishmap .section-title{color:var(--cream);margin-bottom:.5rem}
 .fishmap .section-sub{font-family:'Source Serif 4',serif;color:var(--lake-fog);font-weight:300;max-width:500px;line-height:1.6;margin-bottom:2.5rem}
 .map-container{border-radius:8px;overflow:hidden;border:2px solid rgba(255,255,255,.1);background:var(--slate-water);position:relative;aspect-ratio:16/8}
-.map-svg{width:100%;height:100%}
-.map-pin{cursor:pointer;transition:transform .2s}
-.map-pin:hover{transform:scale(1.3)}
-.pin-dot{stroke:var(--cream);stroke-width:1.5}
-.pin-dot.walleye{fill:var(--walleye-gold)}.pin-dot.bass{fill:var(--moss)}.pin-dot.panfish{fill:var(--river-blue)}.pin-dot.musky{fill:var(--ember)}.pin-dot.trout{fill:var(--sage)}
+#fish-map{width:100%;height:100%;background:#10161c;z-index:1;font-family:'DM Sans',sans-serif}
+.leaflet-bar a{background:#1c2d3a;color:var(--cream);border-color:rgba(255,255,255,.15)}
+.leaflet-bar a:hover{background:#2a3d4a;color:#fff}
+.leaflet-control-attribution{background:rgba(10,15,20,.7)!important;color:#5a6a75!important;font-size:.6rem}
+.leaflet-control-attribution a{color:#7a8a95!important}
+.leaflet-popup-content-wrapper{background:var(--warm-white);color:var(--text);border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.leaflet-popup-content{margin:.9rem 1.1rem;line-height:1.5;font-family:'DM Sans',sans-serif}
+.leaflet-popup-tip{background:var(--warm-white)}
+.fish-popup-species{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;color:var(--pine-deep)}
+.fish-popup-meta{font-size:.8rem;color:var(--text-mid);margin-top:.15rem}
+.map-toolbar{position:absolute;top:12px;right:12px;z-index:800;display:flex;gap:.5rem}
+.map-btn{background:rgba(28,45,58,.94);color:var(--cream);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:.55rem .9rem;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.5px;cursor:pointer}
+.map-btn:hover{background:var(--walleye-gold);color:#1a2b1c;border-color:var(--walleye-gold)}
+.map-btn.active{background:var(--walleye-gold);color:#1a2b1c;border-color:var(--walleye-gold)}
+.map-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:800;background:rgba(196,162,69,.95);color:#1a2b1c;font-size:.75rem;font-weight:600;padding:.5rem .9rem;border-radius:20px;display:none;white-space:nowrap}
+.pin-form{min-width:210px}
+.pin-form label{display:block;font-size:.72rem;font-weight:600;color:var(--text-mid);margin:.55rem 0 .2rem}
+.pin-form input,.pin-form select{width:100%;padding:.45rem .55rem;border:1px solid #d4c8b0;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.82rem;background:#fff;color:var(--text);box-sizing:border-box}
+.pin-form button{margin-top:.75rem;width:100%;background:var(--ember);color:#fff;border:none;border-radius:5px;padding:.6rem;font-weight:600;cursor:pointer;font-size:.82rem;font-family:'DM Sans',sans-serif}
+.pin-form button:hover{background:#8f4a2c}
+.map-fallback{display:flex;align-items:center;justify-content:center;height:100%;color:var(--lake-fog);font-size:.9rem;padding:2rem;text-align:center}
 .map-legend{display:flex;gap:1.5rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap}
 .legend-item{display:flex;align-items:center;gap:.4rem;color:var(--lake-fog);font-size:.75rem}
 .legend-dot{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3)}
-.map-popup{position:absolute;background:var(--warm-white);border-radius:6px;padding:0;width:240px;box-shadow:0 12px 40px rgba(0,0,0,.3);display:none;z-index:10;overflow:hidden}
-.map-popup.active{display:block}
-.popup-header{height:100px;display:flex;align-items:center;justify-content:center}
-.popup-body{padding:.8rem}
-.popup-species{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--pine-deep);letter-spacing:1px}
-.popup-meta{font-size:.7rem;color:var(--text-light);margin-top:.2rem}
-.popup-close{position:absolute;top:6px;right:8px;background:rgba(0,0,0,.5);color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .map-cta{text-align:center;margin-top:2rem}
+
+/* BLOG (FIELD NOTES) */
+.blog{background:var(--warm-white);padding:5rem 3rem}
+.blog-inner{max-width:860px;margin:0 auto}
+.blog .section-tag{color:var(--ember)}
+.blog .section-title{color:var(--pine-deep);margin-bottom:.5rem}
+.blog .section-sub{font-family:'Source Serif 4',serif;color:var(--text-mid);font-weight:300;max-width:520px;line-height:1.6;margin-bottom:2.5rem}
+.blog-post{border-top:2px solid var(--sand);padding:1.8rem 0}
+.blog-post:last-child{border-bottom:2px solid var(--sand)}
+.blog-tag{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ember);margin-bottom:.5rem}
+.blog-title{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:1px;color:var(--pine-deep);margin-bottom:.25rem}
+.blog-date{font-size:.75rem;color:var(--text-light);margin-bottom:.8rem}
+.blog-excerpt{font-family:'Source Serif 4',serif;color:var(--text-mid);line-height:1.7;font-weight:300}
+.blog-body{font-family:'Source Serif 4',serif;color:var(--text);line-height:1.75;font-weight:300;margin-top:1rem;display:none}
+.blog-body.open{display:block}
+.blog-body p{margin-bottom:1rem}
+.blog-toggle{background:none;border:none;color:var(--ember);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;padding:.5rem 0 0;letter-spacing:.5px}
+.blog-toggle:hover{color:var(--campfire)}
+
+/* SUBSTACK */
+.substack-posts{max-width:760px;margin:0 auto 2.2rem;text-align:left}
+.substack-post{display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:1.3rem 1.5rem;margin-bottom:1rem;text-decoration:none;transition:background .3s,border-color .3s}
+.substack-post:hover{background:rgba(255,255,255,.1);border-color:var(--walleye-gold)}
+.substack-post-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;color:var(--cream);margin-bottom:.2rem}
+.substack-post-date{font-size:.7rem;color:var(--lake-fog);opacity:.7;margin-bottom:.5rem}
+.substack-post-excerpt{font-family:'Source Serif 4',serif;font-size:.92rem;color:rgba(255,255,255,.72);font-weight:300;line-height:1.6}
+.substack-empty{font-family:'Source Serif 4',serif;color:rgba(255,255,255,.6);font-weight:300;margin-bottom:2rem}
+.newsletter .btn-ember{display:inline-block;text-decoration:none}
 
 /* FISH WALL */
 .fishwall{padding:5rem 3rem;background:var(--warm-white)}
@@ -223,6 +265,7 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
 .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--cream);letter-spacing:2px}
 .footer-logo span{color:var(--sage)}
 .footer-text{color:var(--lake-fog);font-size:.7rem;font-weight:300}
+.footer-ip{color:var(--stone);font-size:.62rem;font-weight:300;margin-top:.3rem;opacity:.75}
 .footer-links{display:flex;gap:1.5rem;list-style:none}
 .footer-links a{color:var(--lake-fog);text-decoration:none;font-size:.75rem;transition:color .3s}
 .footer-links a:hover{color:var(--sand)}
@@ -352,24 +395,36 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
   </div>
   <div class="gear-gallery">
     <div class="gear-item">
-      <img src="nucanoe-unlimited.webp" alt="NuCanoe Unlimited">
+      <img src="gear-nucanoe-unlimited.jpg" alt="NuCanoe Unlimited" onerror="this.closest('.gear-item').classList.add('no-photo')">
       <div class="gear-label">NuCanoe Unlimited<span class="gear-sublabel">Scott's primary platform</span></div>
     </div>
     <div class="gear-item">
-      <img src="hawkeye-fishtrax.webp" alt="HawkEye FishTrax">
-      <div class="gear-label">HawkEye FishTrax<span class="gear-sublabel">Castable fish finder</span></div>
+      <img src="gear-garmin-striker4.jpg" alt="Garmin Striker 4" onerror="this.closest('.gear-item').classList.add('no-photo')">
+      <div class="gear-label">Garmin Striker 4<span class="gear-sublabel">Scott &amp; Adam's fish finder</span></div>
     </div>
     <div class="gear-item">
-      <img src="adam-kayak.webp" alt="Bonafide SS127">
+      <img src="gear-hawkeye-fishtrax.gif" alt="HawkEye FishTrax" onerror="this.closest('.gear-item').classList.add('no-photo')">
+      <div class="gear-label">HawkEye FishTrax<span class="gear-sublabel">Scott's castable fish finder</span></div>
+    </div>
+    <div class="gear-item">
+      <img src="gear-bonafide-ss127.png" alt="Bonafide SS127" onerror="this.closest('.gear-item').classList.add('no-photo')">
       <div class="gear-label">Bonafide SS127<span class="gear-sublabel">Adam's primary platform</span></div>
     </div>
     <div class="gear-item">
-      <img src="transducer-arm.webp" alt="Transducer mount">
-      <div class="gear-label">Transducer Arm<span class="gear-sublabel">Custom mount system</span></div>
+      <img src="gear-nucanoe-gearpod.jpg" alt="NuCanoe GearPod" onerror="this.closest('.gear-item').classList.add('no-photo')">
+      <div class="gear-label">NuCanoe GearPod<span class="gear-sublabel">Scott's on-deck storage</span></div>
     </div>
     <div class="gear-item">
-      <img src="eskimo-shelter.webp" alt="Eskimo shelter">
-      <div class="gear-label">Eskimo Ice Shelter<span class="gear-sublabel">Hard-water essentials</span></div>
+      <img src="gear-yakattack-blackpak.jpg" alt="YakAttack BlackPak Pro" onerror="this.closest('.gear-item').classList.add('no-photo')">
+      <div class="gear-label">YakAttack BlackPak Pro<span class="gear-sublabel">Scott &amp; Adam's tackle crate</span></div>
+    </div>
+    <div class="gear-item">
+      <img src="gear-yakattack-sidewinder.jpg" alt="YakAttack SideWinder" onerror="this.closest('.gear-item').classList.add('no-photo')">
+      <div class="gear-label">YakAttack SideWinder<span class="gear-sublabel">Scott's anchor line management</span></div>
+    </div>
+    <div class="gear-item">
+      <img src="transducer-arm.webp" alt="Transducer mount" onerror="this.closest('.gear-item').classList.add('no-photo')">
+      <div class="gear-label">Transducer Arm<span class="gear-sublabel">Custom mount system</span></div>
     </div>
   </div>
 </section>
@@ -427,60 +482,25 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
   <div class="fishmap-inner">
     <div class="section-tag">Community intel</div>
     <h2 class="section-title">WHERE THEY'RE BITING</h2>
-    <p class="section-sub">Drop a pin where you caught 'em. Browse reports from the Two Friends Fishing community across Wisconsin waters.</p>
+    <p class="section-sub">Drop a pin where you caught 'em. Browse reports from the Two Friends Fishing community across the United States — zoom in to see what's biting near you.</p>
     <div class="map-container" id="mapContainer">
-      <svg class="map-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a5a6a" stop-opacity=".3"/><stop offset="100%" stop-color="#2a4a5a" stop-opacity=".5"/></linearGradient>
-          <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-        <rect width="800" height="400" fill="#2a3d4a"/>
-        <path d="M80,40 L350,30 L380,50 L420,40 L500,35 L560,60 L600,45 L680,70 L720,90 L700,150 L720,200 L710,260 L680,300 L620,340 L550,360 L480,370 L400,365 L320,350 L260,330 L200,310 L140,280 L100,240 L80,180 L70,120 Z" fill="#3d5040" stroke="#4a6050" stroke-width="1"/>
-        <ellipse cx="520" cy="130" rx="45" ry="65" fill="url(#waterGrad)" opacity=".8"/>
-        <text x="520" y="135" text-anchor="middle" fill="#6a8a9a" font-size="9" font-family="DM Sans" opacity=".7">Winnebago</text>
-        <ellipse cx="180" cy="120" rx="30" ry="20" fill="url(#waterGrad)" opacity=".6"/>
-        <text x="180" y="124" text-anchor="middle" fill="#6a8a9a" font-size="7" font-family="DM Sans" opacity=".7">St. Croix</text>
-        <ellipse cx="350" cy="90" rx="20" ry="15" fill="url(#waterGrad)" opacity=".6"/>
-        <text x="350" y="94" text-anchor="middle" fill="#6a8a9a" font-size="7" font-family="DM Sans" opacity=".7">Shawano</text>
-        <ellipse cx="600" cy="180" rx="25" ry="20" fill="url(#waterGrad)" opacity=".6"/>
-        <text x="600" y="184" text-anchor="middle" fill="#6a8a9a" font-size="7" font-family="DM Sans" opacity=".7">Sturgeon Bay</text>
-        <ellipse cx="280" cy="230" rx="30" ry="18" fill="url(#waterGrad)" opacity=".6"/>
-        <text x="280" y="234" text-anchor="middle" fill="#6a8a9a" font-size="7" font-family="DM Sans" opacity=".7">Wisconsin R.</text>
-        <circle cx="490" cy="160" r="3" fill="#8a9a6e" opacity=".6"/>
-        <text x="498" y="163" fill="#8a9a6e" font-size="8" font-family="DM Sans" opacity=".6">Appleton</text>
-        <circle cx="350" cy="300" r="3" fill="#8a9a6e" opacity=".4"/>
-        <text x="358" y="303" fill="#8a9a6e" font-size="7" font-family="DM Sans" opacity=".4">Madison</text>
-        <circle cx="480" cy="320" r="3" fill="#8a9a6e" opacity=".4"/>
-        <text x="488" y="323" fill="#8a9a6e" font-size="7" font-family="DM Sans" opacity=".4">Milwaukee</text>
-        <!-- Pins -->
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'walleye','24&quot; Walleye','@fisherman_joe','Lake Winnebago','Apr 5, 2026')"><circle cx="510" cy="110" r="7" class="pin-dot walleye"/></g>
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'walleye','19&quot; Walleye','@driftboat_dan','Wolf River','Apr 4, 2026')"><circle cx="480" cy="125" r="6" class="pin-dot walleye"/></g>
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'bass','4.2 lb Smallmouth','@basshunter_wi','Lake Winnebago','Apr 3, 2026')"><circle cx="530" cy="145" r="6" class="pin-dot bass"/></g>
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'panfish','10&quot; Bluegill','@panfish_pete','Shawano Lake','Apr 5, 2026')"><circle cx="355" cy="78" r="5" class="pin-dot panfish"/></g>
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'musky','42&quot; Musky','@musky_mike_wi','Chippewa Flowage','Apr 2, 2026')"><circle cx="220" cy="100" r="7" class="pin-dot musky"/></g>
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'trout','16&quot; Brown Trout','@driftless_angler','Driftless Area','Apr 4, 2026')"><circle cx="240" cy="280" r="6" class="pin-dot trout"/></g>
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'bass','3.8 lb Largemouth','@kayak_kev','Fox River','Apr 5, 2026')"><circle cx="500" cy="175" r="5" class="pin-dot bass"/></g>
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'walleye','21&quot; Walleye','@wi_walleye','Green Bay','Apr 3, 2026')"><circle cx="560" cy="100" r="6" class="pin-dot walleye"/></g>
-        <g class="map-pin" filter="url(#glow)" onclick="showPopup(event,'panfish','9&quot; Crappie','@slab_hunter','Wisconsin River','Apr 1, 2026')"><circle cx="290" cy="220" r="5" class="pin-dot panfish"/></g>
-      </svg>
-      <div class="map-popup" id="mapPopup">
-        <button class="popup-close" onclick="document.getElementById('mapPopup').classList.remove('active')">&times;</button>
-        <div class="popup-header" id="popupHeader" style="background:var(--slate-water)"><span style="font-size:2.5rem" id="popupEmoji">🐟</span></div>
-        <div class="popup-body">
-          <div class="popup-species" id="popupSpecies">24" Walleye</div>
-          <div class="popup-meta" id="popupAngler">@fisherman_joe</div>
-          <div class="popup-meta" id="popupLocation">📍 Lake Winnebago &bull; Apr 5, 2026</div>
-        </div>
+      <div id="fish-map"></div>
+      <div class="map-toolbar">
+        <button class="map-btn" id="dropPinBtn" type="button">📍 Drop a Pin</button>
+        <button class="map-btn" id="resetViewBtn" type="button">Reset View</button>
       </div>
+      <div class="map-hint" id="mapHint">Click anywhere on the map to place your pin</div>
     </div>
-    <div class="map-legend">
+    <div class="map-legend">    <div class="map-legend">
       <div class="legend-item"><div class="legend-dot" style="background:var(--walleye-gold)"></div> Walleye</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--moss)"></div> Bass</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6b7c4a"></div> Largemouth</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#b08d57"></div> Smallmouth</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3f8f7a"></div> Pike</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--river-blue)"></div> Panfish</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--ember)"></div> Musky</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--sage)"></div> Trout</div>
     </div>
-    <div class="map-cta"><a href="#" class="btn btn-primary" style="margin-top:.5rem">Drop Your Pin</a></div>
+    <div class="map-cta"><a href="#fishmap" class="btn btn-primary" id="dropPinCta" style="margin-top:.5rem">Drop Your Pin</a></div>
   </div>
 </section>
 
@@ -543,6 +563,16 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
   </div>
 </section>
 
+<!-- BLOG (FIELD NOTES) -->
+<section class="blog" id="blog" style="display:none">
+  <div class="blog-inner">
+    <div class="section-tag">Field notes</div>
+    <h2 class="section-title">FROM THE BLOG</h2>
+    <p class="section-sub">Short-form thoughts from the water — the quick hits that don't need a full video.</p>
+    <div class="blog-list"></div>
+  </div>
+</section>
+
 <!-- SOCIAL -->
 <section class="social" id="follow">
   <div class="section-tag">Join the crew</div>
@@ -563,23 +593,25 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
 </section>
 
 <!-- NEWSLETTER -->
-<section class="newsletter">
-  <div class="section-tag" style="color:var(--walleye-gold)">Stay in the loop</div>
+<section class="newsletter" id="newsletter">
+  <div class="section-tag" style="color:var(--walleye-gold)">The newsletter</div>
   <h2 class="section-title">GET ON THE LIST</h2>
-  <p>Trip reports, gear drops, and new episode alerts. No spam — just fishing.</p>
-  <div class="newsletter-form"><input type="email" placeholder="Your email address"><button>Subscribe</button></div>
+  <p>Trip reports, tackle breakdowns, and the stories that didn't make the video — delivered by Substack. No spam, just fishing.</p>
+  <div class="substack-posts"></div>
+  <a class="btn btn-ember" href="https://twofriendsfishing.substack.com/subscribe" target="_blank" rel="noopener">Subscribe on Substack</a>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">TWO FRIENDS <span>FISHING</span></div>
-  <div class="footer-text">&copy; 2026 Two Friends Outdoors LLC &bull; Appleton, Wisconsin</div>
+  <div class="footer-text">&copy; 2026 Two Friends Outdoors &bull; Appleton, Wisconsin</div>
+  <div class="footer-ip">Two Friends Fishing&trade; and Two Friends Outdoors&trade; are trademarks of Two Friends Outdoors.</div>
   <ul class="footer-links">
-    <li><a href="#">YouTube</a></li>
-    <li><a href="#">Instagram</a></li>
-    <li><a href="#">TikTok</a></li>
-    <li><a href="#">Substack</a></li>
-    <li><a href="#">Contact</a></li>
+    <li><a href="https://www.youtube.com/@Two_Friends_Fishing" target="_blank" rel="noopener">YouTube</a></li>
+    <li><a href="https://instagram.com/two_friends_fishing" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="https://www.tiktok.com/@twofriendsfishing" target="_blank" rel="noopener">TikTok</a></li>
+    <li><a href="https://twofriendsfishing.substack.com" target="_blank" rel="noopener">Substack</a></li>
+    <li><a href="mailto:twofriendsfishingwi@gmail.com">Contact</a></li>
   </ul>
 </footer>
 
@@ -960,19 +992,96 @@ function renderChannelVideos(grid, site) {
 }
 
 
+// ── Fish Map: nationwide Leaflet map with community catch pins ──
+const SPECIES_COLORS = {walleye:'#c4a245',smallmouth:'#b08d57',largemouth:'#6b7c4a',bass:'#6b7c4a',pike:'#3f8f7a',panfish:'#4a6d7a',musky:'#a85a3a',trout:'#8a9a6e'};
+const US_VIEW = {lat: 39.8, lon: -98.5, zoom: 4};
+function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function initFishMap(fishmap){
+  const mapEl = document.getElementById('fish-map');
+  if(!mapEl) return;
+  if(typeof L === 'undefined'){
+    mapEl.innerHTML = '<div class="map-fallback">The map could not load right now — please check back shortly.</div>';
+    return;
+  }
+  const map = L.map('fish-map', {scrollWheelZoom:false, minZoom:3, maxZoom:16}).setView([US_VIEW.lat, US_VIEW.lon], US_VIEW.zoom);
+  map.on('focus', ()=>map.scrollWheelZoom.enable());
+  map.on('blur', ()=>map.scrollWheelZoom.disable());
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd', maxZoom: 20
+  }).addTo(map);
+  (fishmap||[]).forEach(pin=>{
+    if(pin.lat==null || pin.lon==null) return;
+    const color = SPECIES_COLORS[pin.species] || '#c8d4d8';
+    L.circleMarker([pin.lat, pin.lon], {
+      radius: pin.size || 6, color: '#f2ece3', weight: 1.5, fillColor: color, fillOpacity: 0.9
+    }).addTo(map).bindPopup(
+      '<div class="fish-popup-species">'+escHtml(pin.title)+'</div>'+
+      '<div class="fish-popup-meta">'+escHtml(pin.angler)+'</div>'+
+      '<div class="fish-popup-meta">📍 '+escHtml(pin.location)+' &bull; '+escHtml(pin.date)+'</div>'
+    );
+  });
+  document.getElementById('resetViewBtn').addEventListener('click', ()=>map.setView([US_VIEW.lat, US_VIEW.lon], US_VIEW.zoom));
+  // ── Drop-a-pin: visitor places a pin, details go to the crew by email ──
+  let dropMode = false, tempMarker = null;
+  const dropBtn = document.getElementById('dropPinBtn');
+  const hint = document.getElementById('mapHint');
+  function setDropMode(on){
+    dropMode = on;
+    dropBtn.classList.toggle('active', on);
+    hint.style.display = on ? 'block' : 'none';
+    mapEl.style.cursor = on ? 'crosshair' : '';
+    if(!on && tempMarker){ map.removeLayer(tempMarker); tempMarker = null; }
+  }
+  dropBtn.addEventListener('click', ()=>setDropMode(!dropMode));
+  document.getElementById('dropPinCta').addEventListener('click', ()=>setDropMode(true));
+  map.on('click', e=>{
+    if(!dropMode) return;
+    const lat = e.latlng.lat.toFixed(4), lon = e.latlng.lng.toFixed(4);
+    if(tempMarker) map.removeLayer(tempMarker);
+    tempMarker = L.marker([lat, lon]).addTo(map);
+    tempMarker.bindPopup(
+      '<form class="pin-form" id="pinForm">'+
+      '<div class="fish-popup-species">YOUR CATCH</div>'+
+      '<div class="fish-popup-meta">'+lat+', '+lon+'</div>'+
+      '<label>Species</label><select id="pinSpecies" required>'+
+      '<option value="walleye">Walleye</option><option value="smallmouth">Smallmouth Bass</option>'+
+      '<option value="largemouth">Largemouth Bass</option><option value="pike">Northern Pike</option>'+
+      '<option value="panfish">Panfish</option><option value="musky">Musky</option><option value="trout">Trout</option>'+
+      '</select>'+
+      '<label>Catch (e.g. 24" Walleye)</label><input id="pinTitle" required maxlength="60" placeholder="What did you land?">'+
+      '<label>Your name or handle</label><input id="pinHandle" required maxlength="40" placeholder="@yourhandle">'+
+      '<button type="submit">Submit Catch</button></form>'
+    ).openPopup();
+    document.getElementById('pinForm').addEventListener('submit', ev=>{
+      ev.preventDefault();
+      const sp = document.getElementById('pinSpecies').value;
+      const ti = document.getElementById('pinTitle').value.trim();
+      const ha = document.getElementById('pinHandle').value.trim();
+      const subject = encodeURIComponent('New Fish Map pin: '+ti);
+      const body = encodeURIComponent('Species: '+sp+'\nCatch: '+ti+'\nAngler: '+ha+'\nCoordinates: '+lat+', '+lon+'\n\nSubmitted from the Two Friends Fishing map.');
+      window.location.href = 'mailto:twofriendsfishingwi@gmail.com?subject='+subject+'&body='+body;
+      setDropMode(false);
+      map.setView([US_VIEW.lat, US_VIEW.lon], US_VIEW.zoom);
+    });
+  });
+}
+
 // DATA-DRIVEN RENDERING — loads content from JSON files
 // Edit content via Pages CMS at app.pagescms.org
 // ══════════════════════════════════════════════════════
 async function loadSiteData() {
   try {
-    const [site, episodes, gear, weather, fishwall, fishmap, social] = await Promise.all([
+    const [site, episodes, gear, weather, fishwall, fishmap, social, blog, substack] = await Promise.all([
       fetch('site.json').then(r => r.json()),
       fetch('episodes.json').then(r => r.json()),
       fetch('gear.json').then(r => r.json()),
       fetchLiveWeather(),
       fetch('fishwall.json').then(r => r.json()),
       fetch('fishmap.json').then(r => r.json()),
-      fetch('social.json').then(r => r.json())
+      fetch('social.json').then(r => r.json()),
+      fetch('blog.json').then(r => r.json()).catch(() => []),
+      fetch('substack.json').then(r => r.json()).catch(() => [])
     ]);
 
     // ── Site / Hero ──
@@ -1015,12 +1124,15 @@ async function loadSiteData() {
     // ── Gear ──
     const gearGallery = document.querySelector('.gear-gallery');
     if (gearGallery && gear.length) {
-      gearGallery.innerHTML = gear.map(g => `
+      gearGallery.innerHTML = gear.map(g => {
+        const img = `<img src="${g.image}" alt="${escHtml(g.name)}" onerror="this.closest('.gear-item').classList.add('no-photo')">`;
+        return `
         <div class="gear-item">
-          <img src="${g.image}" alt="${g.name}">
-          <div class="gear-label">${g.name}<span class="gear-sublabel">${g.subtitle}</span></div>
-        </div>
-      `).join('');
+          ${g.product_url ? `<a href="${g.product_url}" target="_blank" rel="noopener" aria-label="${escHtml(g.name)} — product page">${img}</a>` : img}
+          ${g.image_credit ? `<div class="gear-credit">${escHtml(g.image_credit)}</div>` : ''}
+          <div class="gear-label">${escHtml(g.name)}<span class="gear-sublabel">${escHtml(g.subtitle)}</span></div>
+        </div>`;
+      }).join('');
     }
 
     // ── Ice Fishing ──
@@ -1033,24 +1145,49 @@ async function loadSiteData() {
     renderWeather(weather);
 
     // ── Fish Map Pins ──
-    const pinContainer = document.querySelector('.map-svg');
-    if (pinContainer && fishmap.length) {
-      // Remove existing pins
-      pinContainer.querySelectorAll('.map-pin').forEach(p => p.remove());
-      // Add from data
-      fishmap.forEach(pin => {
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('class', 'map-pin');
-        g.setAttribute('filter', 'url(#glow)');
-        g.onclick = (e) => showPopup(e, pin.species, pin.title, pin.angler, pin.location, pin.date);
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('cx', pin.x);
-        circle.setAttribute('cy', pin.y);
-        circle.setAttribute('r', pin.size);
-        circle.setAttribute('class', 'pin-dot ' + pin.species);
-        g.appendChild(circle);
-        pinContainer.appendChild(g);
+    // ── Fish Map (Leaflet — nationwide, zoomable) ──
+    initFishMap(fishmap);
+
+    // ── Blog (Field Notes) ──
+    const blogSection = document.getElementById('blog');
+    const blogList = document.querySelector('.blog-list');
+    if (blogSection && blogList && blog && blog.length) {
+      blogSection.style.display = '';
+      const posts = [...blog].reverse();
+      blogList.innerHTML = posts.map((p, i) => {
+        const paras = escHtml(p.body || '').split(/\n\n+/).map(t => `<p>${t.replace(/\n/g, '<br>')}</p>`).join('');
+        return `
+        <article class="blog-post">
+          ${p.tag ? `<div class="blog-tag">${escHtml(p.tag)}</div>` : ''}
+          <h3 class="blog-title">${escHtml(p.title)}</h3>
+          <div class="blog-date">${escHtml(p.date || '')}</div>
+          <div class="blog-excerpt">${escHtml(p.excerpt || '')}</div>
+          ${paras ? `<div class="blog-body" id="blog-body-${i}">${paras}</div>
+          <button class="blog-toggle" data-target="blog-body-${i}">Read more +</button>` : ''}
+        </article>`;
+      }).join('');
+      blogList.querySelectorAll('.blog-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const body = document.getElementById(btn.dataset.target);
+          const open = body.classList.toggle('open');
+          btn.textContent = open ? 'Show less −' : 'Read more +';
+        });
       });
+    }
+
+    // ── Substack previews ──
+    const subPosts = document.querySelector('.substack-posts');
+    if (subPosts) {
+      if (substack && substack.length) {
+        subPosts.innerHTML = substack.slice(0, 3).map(p => `
+          <a class="substack-post" href="${escHtml(p.link)}" target="_blank" rel="noopener">
+            <div class="substack-post-title">${escHtml(p.title)}</div>
+            <div class="substack-post-date">${escHtml(p.pubDate || '')}</div>
+            ${p.excerpt ? `<div class="substack-post-excerpt">${escHtml(p.excerpt)}</div>` : ''}
+          </a>`).join('');
+      } else {
+        subPosts.innerHTML = '<p class="substack-empty">The first issue is still in the livewell — subscribe below and you\u2019ll get it the moment it drops.</p>';
+      }
     }
 
     // ── Fish Wall ──
@@ -1105,28 +1242,6 @@ async function loadSiteData() {
 }
 
 document.addEventListener('DOMContentLoaded', loadSiteData);
-
-// ── Map Popup ──
-function showPopup(event,species,title,angler,location,date){
-  const popup=document.getElementById('mapPopup');
-  const container=document.getElementById('mapContainer');
-  const rect=container.getBoundingClientRect();
-  document.getElementById('popupHeader').style.background=`linear-gradient(135deg, var(--slate-water), ${species==='walleye'?'#8a7a30':species==='bass'?'#4a5a30':species==='musky'?'#7a3a2a':'var(--slate-water)'})`;
-  document.getElementById('popupEmoji').textContent=species==='musky'?'🦈':'🐟';
-  document.getElementById('popupSpecies').textContent=title;
-  document.getElementById('popupAngler').textContent=angler;
-  document.getElementById('popupLocation').textContent='📍 '+location+' • '+date;
-  const x=event.clientX-rect.left;
-  const y=event.clientY-rect.top;
-  popup.style.left=Math.min(x+15,rect.width-260)+'px';
-  popup.style.top=Math.min(y-60,rect.height-200)+'px';
-  popup.classList.add('active');
-}
-document.getElementById('mapContainer').addEventListener('click',function(e){
-  if(!e.target.closest('.map-pin')&&!e.target.closest('.map-popup')){
-    document.getElementById('mapPopup').classList.remove('active');
-  }
-});
 </script>
 
 </body>

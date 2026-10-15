@@ -1,11 +1,92 @@
 [
-  { "species": "walleye", "title": "24\" Walleye", "angler": "@fisherman_joe", "location": "Lake Winnebago", "date": "Apr 5, 2026", "x": 510, "y": 110, "size": 7 },
-  { "species": "walleye", "title": "19\" Walleye", "angler": "@driftboat_dan", "location": "Wolf River", "date": "Apr 4, 2026", "x": 480, "y": 125, "size": 6 },
-  { "species": "bass", "title": "4.2 lb Smallmouth", "angler": "@basshunter_wi", "location": "Lake Winnebago", "date": "Apr 3, 2026", "x": 530, "y": 145, "size": 6 },
-  { "species": "panfish", "title": "10\" Bluegill", "angler": "@panfish_pete", "location": "Shawano Lake", "date": "Apr 5, 2026", "x": 355, "y": 78, "size": 5 },
-  { "species": "musky", "title": "42\" Musky", "angler": "@musky_mike_wi", "location": "Chippewa Flowage", "date": "Apr 2, 2026", "x": 220, "y": 100, "size": 7 },
-  { "species": "trout", "title": "16\" Brown Trout", "angler": "@driftless_angler", "location": "Driftless Area", "date": "Apr 4, 2026", "x": 240, "y": 280, "size": 6 },
-  { "species": "bass", "title": "3.8 lb Largemouth", "angler": "@kayak_kev", "location": "Fox River", "date": "Apr 5, 2026", "x": 500, "y": 175, "size": 5 },
-  { "species": "walleye", "title": "21\" Walleye", "angler": "@wi_walleye", "location": "Green Bay", "date": "Apr 3, 2026", "x": 560, "y": 100, "size": 6 },
-  { "species": "panfish", "title": "9\" Crappie", "angler": "@slab_hunter", "location": "Wisconsin River", "date": "Apr 1, 2026", "x": 290, "y": 220, "size": 5 }
+  {
+    "species": "walleye",
+    "title": "24\" Walleye",
+    "angler": "@fisherman_joe",
+    "location": "Lake Winnebago",
+    "date": "Apr 5, 2026",
+    "lat": 44.0012,
+    "lon": -88.4308,
+    "size": 7
+  },
+  {
+    "species": "walleye",
+    "title": "19\" Walleye",
+    "angler": "@driftboat_dan",
+    "location": "Wolf River",
+    "date": "Apr 4, 2026",
+    "lat": 44.861,
+    "lon": -88.6465,
+    "size": 6
+  },
+  {
+    "species": "bass",
+    "title": "4.2 lb Smallmouth",
+    "angler": "@basshunter_wi",
+    "location": "Lake Winnebago",
+    "date": "Apr 3, 2026",
+    "lat": 44.0712,
+    "lon": -88.4908,
+    "size": 6
+  },
+  {
+    "species": "panfish",
+    "title": "10\" Bluegill",
+    "angler": "@panfish_pete",
+    "location": "Shawano Lake",
+    "date": "Apr 5, 2026",
+    "lat": 44.8062,
+    "lon": -88.5239,
+    "size": 5
+  },
+  {
+    "species": "musky",
+    "title": "42\" Musky",
+    "angler": "@musky_mike_wi",
+    "location": "Chippewa Flowage",
+    "date": "Apr 2, 2026",
+    "lat": 45.9324,
+    "lon": -91.2105,
+    "size": 7
+  },
+  {
+    "species": "trout",
+    "title": "16\" Brown Trout",
+    "angler": "@driftless_angler",
+    "location": "Driftless Area",
+    "date": "Apr 4, 2026",
+    "lat": 43.5811,
+    "lon": -90.8231,
+    "size": 6
+  },
+  {
+    "species": "bass",
+    "title": "3.8 lb Largemouth",
+    "angler": "@kayak_kev",
+    "location": "Fox River",
+    "date": "Apr 5, 2026",
+    "lat": 44.2516,
+    "lon": -88.4244,
+    "size": 5
+  },
+  {
+    "species": "walleye",
+    "title": "21\" Walleye",
+    "angler": "@wi_walleye",
+    "location": "Green Bay",
+    "date": "Apr 3, 2026",
+    "lat": 44.5126,
+    "lon": -88.0126,
+    "size": 6
+  },
+  {
+    "species": "panfish",
+    "title": "9\" Crappie",
+    "angler": "@slab_hunter",
+    "location": "Wisconsin River",
+    "date": "Apr 1, 2026",
+    "lat": 44.4708,
+    "lon": -89.588,
+    "size": 5
+  }
 ]
