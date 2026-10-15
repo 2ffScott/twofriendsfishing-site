@@ -410,3 +410,45 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
 .checklist{list-style:none;margin:1rem 0 1.5rem;padding:0;max-width:640px}
 .checklist li{font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--text-mid);padding:.55rem 0 .55rem 2rem;position:relative;border-bottom:1px solid rgba(46,58,48,.1)}
 .checklist li::before{content:'☐';position:absolute;left:0;color:var(--cedar);font-size:1.05rem;line-height:1.4}
+
+/* ── Mobile tab bar ── */
+.tabbar{display:none}
+.more-sheet{display:none}
+@media(max-width:760px){
+  nav .hamburger{display:none}
+  body{padding-bottom:70px}
+  .tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(26,43,28,.97);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.14);padding:.35rem .2rem calc(.35rem + env(safe-area-inset-bottom))}
+  .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--lake-fog);text-decoration:none;font-family:'DM Sans',sans-serif;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;padding:.35rem 0;cursor:pointer}
+  .tab-ico{font-size:1.3rem;line-height:1}
+  .tab.active{color:var(--walleye-gold)}
+  .more-sheet{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.55);display:block}
+  .more-sheet[hidden]{display:none}
+  .more-sheet-inner{position:absolute;bottom:0;left:0;right:0;background:#1a2b1c;border-radius:18px 18px 0 0;padding:2.2rem 1.8rem calc(1.8rem + env(safe-area-inset-bottom))}
+  .more-sheet-inner a{display:block;color:var(--cream);text-decoration:none;font-family:'DM Sans',sans-serif;font-size:1.05rem;padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.09)}
+  .more-close{position:absolute;top:.5rem;right:1.1rem;background:none;border:none;color:var(--lake-fog);font-size:1.8rem;cursor:pointer;line-height:1}
+}
+
+/* ── Back to top ── */
+.to-top{position:fixed;z-index:190;border-radius:50%;background:var(--pine-deep);color:#fff;border:1px solid rgba(255,255,255,.22);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.to-top.show{opacity:1;pointer-events:auto}
+@media(max-width:760px){.to-top{right:1rem;bottom:84px;width:44px;height:44px;font-size:1.2rem}}
+@media(min-width:761px){.to-top{right:1.5rem;bottom:1.5rem;width:48px;height:48px;font-size:1.3rem}}
+
+/* ── Lightbox ── */
+.lightbox{position:fixed;inset:0;z-index:400;background:rgba(8,12,8,.95);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:1rem}
+.lightbox[hidden]{display:none}
+.lightbox img{max-width:94vw;max-height:80vh;object-fit:contain;border-radius:8px}
+.lb-cap{color:#f2ede2;font-family:'DM Sans',sans-serif;font-size:.9rem;margin-top:.9rem;max-width:90vw;text-align:center}
+.lb-close{position:absolute;top:.8rem;right:1.2rem;background:none;border:none;color:#fff;font-size:2.2rem;cursor:pointer;line-height:1}
+.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.14);color:#fff;border:none;font-size:1.5rem;width:48px;height:48px;border-radius:50%;cursor:pointer;line-height:1}
+.lb-prev{left:.8rem}.lb-next{right:.8rem}
+.lb-prev:hover,.lb-next:hover{background:rgba(255,255,255,.28)}
+
+/* ── Contact form ── */
+.contact-form{max-width:640px;margin-top:1.5rem}
+.contact-form label{display:block;font-family:'DM Sans',sans-serif;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-mid);margin:1.2rem 0 .4rem}
+.contact-form input,.contact-form select,.contact-form textarea{width:100%;font-family:'DM Sans',sans-serif;font-size:1rem;padding:.8rem 1rem;border:1px solid var(--stone);border-radius:8px;background:#fff;color:var(--text)}
+.contact-form textarea{min-height:160px;resize:vertical}
+.contact-form button{margin-top:1.5rem;background:var(--pine-deep);color:#fff;border:none;border-radius:8px;padding:.9rem 2.2rem;font-family:'DM Sans',sans-serif;font-size:1rem;letter-spacing:1px;cursor:pointer;transition:background .25s}
+.contact-form button:hover{background:#243a26}
+.pin-note{font-size:.72rem;color:var(--text-mid);font-family:'DM Sans',sans-serif;margin-top:.6rem;line-height:1.5}
