@@ -24,6 +24,7 @@
     <li><a href="#follow">Follow</a></li>
   </ul>
   <div class="hamburger"><span></span><span></span><span></span></div>
+<script>document.querySelector('.hamburger').addEventListener('click',function(){document.querySelector('.nav-links').classList.toggle('open')});</script>
 </nav>
 
 <!-- HERO -->
@@ -31,7 +32,8 @@
   <div class="hero-bg"></div>
   <div class="hero-texture"></div>
   <div class="hero-vignette"></div>
-  <img class="hero-art" src="hero-cartoon.webp" alt="Two Friends Fishing cartoon" onerror="this.style.display='none'">
+  <img class="hero-art" id="heroArt" alt="Two Friends Fishing cartoon" style="display:none" onload="this.style.display=''">
+<script>fetch('hero-cartoon.txt').then(function(r){return r.text()}).then(function(t){document.getElementById('heroArt').src='data:image/webp;base64,'+t.trim()}).catch(function(){});</script>
   <div class="hero-content">
     <div class="hero-tag">Wisconsin's Kayak Fishing Show</div>
     <h1>TWO FRIENDS<br><span class="accent">FISHING</span></h1>
@@ -54,6 +56,7 @@
     <h2 class="section-title">TWO FRIENDS.<br>ONE PASSION.</h2>
     <p>We're Scott and Adam — two buddies from Appleton, Wisconsin who'd rather be on the water than anywhere else. What started as weekend kayak trips turned into a full-blown fishing show.</p>
     <p>We film everything ourselves, rig our own gear, and keep it real. No sponsors telling us what to say. Just honest takes on the fish, the gear, and the Wisconsin outdoors.</p>
+    <p><a href="about.html">Read our full story &rarr;</a></p>
     <div class="about-stats">
       <div><div class="stat-num">WI</div><div class="stat-label">Based in Wisconsin</div></div>
       <div><div class="stat-num">2</div><div class="stat-label">Friends. That's it.</div></div>
@@ -319,6 +322,10 @@
     <li><a href="https://instagram.com/two_friends_fishing" target="_blank" rel="noopener">Instagram</a></li>
     <li><a href="https://www.tiktok.com/@twofriendsfishing" target="_blank" rel="noopener">TikTok</a></li>
     <li><a href="https://twofriendsfishing.substack.com" target="_blank" rel="noopener">Substack</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="field-notes.html">Field Notes</a></li>
+    <li><a href="resources.html">Fishing Info</a></li>
+    <li><a href="regulations.html">Regulations</a></li>
     <li><a href="mailto:twofriendsfishingwi@gmail.com">Contact</a></li>
   </ul>
 </footer>
