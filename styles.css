@@ -351,3 +351,13 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
   nav .hamburger{display:flex;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);border-radius:8px}
   nav .nav-links.open{display:flex;position:absolute;top:60px;left:0;right:0;background:rgba(26,43,28,.98);flex-direction:column;padding:1rem 2.5rem 1.5rem;gap:1.1rem;z-index:99}
 }
+
+/* ── Infographic gallery ── */
+.info-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:1.5rem}
+.info-feature{margin-top:1.5rem}
+.info-item{display:block;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:10px;overflow:hidden;text-decoration:none;transition:transform .3s,border-color .3s}
+.info-item:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.25)}
+.info-item img{width:100%;height:auto;display:block}
+.info-item .cap{padding:.7rem 1rem;font-size:.85rem;color:var(--lake-fog);font-family:'DM Sans',sans-serif}
+@media(max-width:900px){.info-gallery{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.info-gallery{grid-template-columns:1fr}}
