@@ -111,8 +111,8 @@ content:
         label: Subtitle
         type: string
       - name: image
-        label: Image
-        type: image
+        label: Image URL
+        type: string
       - name: product_url
         label: Product Page URL
         type: string

@@ -2,7 +2,7 @@
   {
     "name": "NuCanoe Unlimited",
     "subtitle": "Scott's primary platform",
-    "image": "gear-nucanoe-unlimited.jpg",
+    "image": "https://nucanoe.com/wp-content/uploads/UNLIMITED-Xi3-Kayak-Stability-Lake-Blue-Ridge-8-e1701812008860.jpg",
     "product_url": "https://nucanoe.com/unlimited/",
     "image_credit": "Image: NuCanoe",
     "featured": true
@@ -10,7 +10,7 @@
   {
     "name": "Garmin Striker 4",
     "subtitle": "Scott & Adam's fish finder",
-    "image": "gear-garmin-striker4.jpg",
+    "image": "https://res.garmin.com/en/products/010-01550-00/g/cf-lg.jpg",
     "product_url": "https://www.garmin.com/en-US/p/528812/",
     "image_credit": "Image: Garmin",
     "featured": false
@@ -18,14 +18,14 @@
   {
     "name": "HawkEye FishTrax 1C",
     "subtitle": "Scott's castable fish finder",
-    "image": "gear-hawkeye-fishtrax.gif",
+    "image": "https://hawkeyeelectronics.com/cdn/shop/products/kayak-fish-finder_965f284e-ed18-4986-8336-b41d7baaf779.gif?v=1582581185",
     "product_url": "https://hawkeyeelectronics.com/products/fishtrax-1c-fish-finder",
     "image_credit": "Image: HawkEye Electronics"
   },
   {
     "name": "Bonafide SS127",
     "subtitle": "Adam's primary platform",
-    "image": "gear-bonafide-ss127.png",
+    "image": "https://bonafidefishing.com/cdn/shop/files/Bonafide-SS127--BRSS12C.png?v=1709760649",
     "product_url": "https://bonafidefishing.com/products/ss127-kayak",
     "image_credit": "Image: Bonafide",
     "featured": false
@@ -33,21 +33,21 @@
   {
     "name": "NuCanoe GearPod",
     "subtitle": "Scott's on-deck storage",
-    "image": "gear-nucanoe-gearpod.jpg",
+    "image": "https://cdn.shopify.com/s/files/1/0680/6234/7438/files/d103d3ef-2400-GearPod-1-1.jpg?v=1787921226",
     "product_url": "https://shop.nucanoe.com/products/2400-nucanoe-gearpod",
     "image_credit": "Image: NuCanoe"
   },
   {
     "name": "YakAttack BlackPak Pro",
     "subtitle": "Scott & Adam's tackle crate",
-    "image": "gear-yakattack-blackpak.jpg",
+    "image": "https://cdn11.bigcommerce.com/s-z9gt0fu/products/605/images/4970/blackpak-pro-kayak-fishing-crate-13-x-16-blp-pro-13x16__74500.1777661941.800.600.jpg?c=2",
     "product_url": "https://www.yakattack.us/blackpak-pro-kayak-fishing-crate-13-x-16/",
     "image_credit": "Image: YakAttack"
   },
   {
     "name": "YakAttack SideWinder",
     "subtitle": "Scott's anchor line management",
-    "image": "gear-yakattack-sidewinder.jpg",
+    "image": "https://cdn11.bigcommerce.com/s-z9gt0fu/products/495/images/4003/sidewinder-anchor-line-reel-includes-track-hardware-and-75-of-550-paracord-ams-1010__55002.1777921895.800.600.jpg?c=2",
     "product_url": "https://www.yakattack.us/sidewinder-anchor-line-reel-includes-track-hardware-and-75-of-550-paracord/",
     "image_credit": "Image: YakAttack"
   },
