@@ -328,11 +328,15 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
   .page-main{padding:7rem 1.5rem 3rem}
 }
 
-/* ── Hero art ── */
-.hero-art{position:absolute;z-index:1;right:4rem;top:50%;transform:translateY(-52%);height:min(66vh,620px);width:auto;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+/* ── Hero art: vignetted portrait that melts into the hero green ── */
+.hero-art{position:absolute;z-index:1;right:2rem;top:50%;transform:translateY(-52%);height:min(72vh,640px);width:auto;
+  -webkit-mask-image:radial-gradient(ellipse 78% 78% at 50% 45%,#000 58%,transparent 98%);
+  mask-image:radial-gradient(ellipse 78% 78% at 50% 45%,#000 58%,transparent 98%)}
 @media(max-width:1200px){
-  .hero-art{height:44vh;right:2rem}
+  .hero-art{height:46vh;right:1rem}
 }
 @media(max-width:900px){
-  .hero-art{right:50%;transform:translateX(50%);top:4.6rem;height:34vh}
+  .hero{flex-direction:column;justify-content:flex-end;align-items:center}
+  .hero-art{position:relative;right:auto;top:auto;transform:none;display:block;height:30vh;margin:4.2rem auto 0}
+  .hero-content{padding:1.2rem 2rem 2.5rem}
 }
