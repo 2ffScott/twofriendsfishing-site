@@ -405,3 +405,8 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
 .bio-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-top:1.5rem;align-items:start}
 .bio-card .slideshow{margin-top:1rem}
 @media(max-width:800px){.bio-grid{grid-template-columns:1fr}}
+
+/* ── Checklist ── */
+.checklist{list-style:none;margin:1rem 0 1.5rem;padding:0;max-width:640px}
+.checklist li{font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--text-mid);padding:.55rem 0 .55rem 2rem;position:relative;border-bottom:1px solid rgba(46,58,48,.1)}
+.checklist li::before{content:'☐';position:absolute;left:0;color:var(--cedar);font-size:1.05rem;line-height:1.4}
