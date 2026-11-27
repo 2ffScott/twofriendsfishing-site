@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=Caveat:wght@500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
 
@@ -174,6 +174,7 @@
       <div class="wx-card"><span class="wx-icon">💨</span><div class="wx-label">Wind</div><div class="wx-value">8 MPH</div><div class="wx-detail">SSW &bull; Gusts to 14</div></div>
       <div class="wx-card"><span class="wx-icon">📊</span><div class="wx-label">Barometer</div><div class="wx-value">30.12</div><div class="wx-detail">Falling slowly ↓</div></div>
       <div class="wx-card"><span class="wx-icon">🌙</span><div class="wx-label">Moon Phase</div><div class="wx-value">Waxing</div><div class="wx-detail">68% illumination</div></div>
+      <div class="wx-card"><span class="wx-icon">☁️</span><div class="wx-label">Cloud Cover</div><div class="wx-value">85%</div><div class="wx-detail">Overcast</div></div>
     </div>
     <div class="wx-bite-meter">
       <div class="bite-gauge"><div class="bite-gauge-inner"><div class="bite-score">7.2</div><div class="bite-score-label">Bite Rating</div></div></div>
@@ -583,6 +584,7 @@ function fetchNWSWeather(lat, lon) {
         bite_rating: score >= 7 ? "GOOD" : (score >= 4.5 ? "FAIR" : "SLOW"),
         bite_summary: _biteCopy(d),
         cloud_cover: cloudCover == null ? null : Math.round(cloudCover),
+        cloud_cover_detail: cloudCover == null ? "—" : (cloudCover >= 70 ? "Overcast" : cloudCover >= 40 ? "Partly cloudy" : cloudCover >= 15 ? "Mostly sunny" : "Clear"),
         species_walleye: species.species_walleye,
         species_smallmouth: species.species_smallmouth,
         species_panfish: species.species_panfish,
@@ -604,10 +606,12 @@ function renderWeather(weather) {
   if (wxCards[1]) wxCards[1].textContent = weather.wind_speed;
   if (wxCards[2]) wxCards[2].textContent = weather.barometer;
   if (wxCards[3]) wxCards[3].textContent = weather.moon_phase;
+  if (wxCards[4]) wxCards[4].textContent = weather.cloud_cover == null ? "—" : weather.cloud_cover + "%";
   if (wxDetails[0]) wxDetails[0].textContent = weather.air_temp_feels;
   if (wxDetails[1]) wxDetails[1].innerHTML = weather.wind_detail;
   if (wxDetails[2]) wxDetails[2].textContent = weather.barometer_detail;
   if (wxDetails[3]) wxDetails[3].textContent = weather.moon_detail;
+  if (wxDetails[4]) wxDetails[4].textContent = weather.cloud_cover_detail || "—";
   var biteScore = document.querySelector('.bite-score');
   if (biteScore) biteScore.textContent = weather.bite_score;
   var biteH3 = document.querySelector('.bite-info h3');
