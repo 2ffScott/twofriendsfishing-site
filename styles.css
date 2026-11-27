@@ -321,6 +321,16 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
 .post .post-meta{font-size:.72rem;color:var(--text-light);letter-spacing:1.5px;text-transform:uppercase;margin:.4rem 0 1rem}
 .post .post-body{font-family:'Source Serif 4',serif;font-weight:300;line-height:1.85;color:var(--text-mid)}
 .post .post-body p{margin-bottom:1rem}
+
+/* FIELD NOTES ARCHIVE */
+.archive-item{border-bottom:1px solid var(--stone);padding:1.1rem 0;max-width:720px}
+.archive-item summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem}
+.archive-item summary::-webkit-details-marker{display:none}
+.archive-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;color:var(--pine-deep)}
+.archive-date{font-size:.72rem;color:var(--text-light);letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+.archive-item .post-meta{font-size:.72rem;color:var(--text-light);letter-spacing:1.5px;text-transform:uppercase}
+.archive-item .post-body{font-family:'Source Serif 4',serif;font-weight:300;line-height:1.85;color:var(--text-mid);margin-top:.5rem}
+.archive-item .post-body p{margin-bottom:1rem}
 .state-filter{width:100%;max-width:420px;padding:.8rem 1rem;font-size:.95rem;border:1px solid var(--stone);border-radius:6px;margin:1.5rem 0 2rem;font-family:'DM Sans',sans-serif}
 .state-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 .state-card{background:var(--cream);border:1px solid var(--stone);border-radius:8px;padding:1.2rem}
