@@ -155,19 +155,6 @@
   </div>
 </section>
 
-<!-- ICE FISHING (full page: ice-fishing.html) -->
-<section class="feature-link" id="ice">
-  <a href="ice-fishing.html" class="feature-link-card">
-    <div class="feature-bg"><img src="ice-fishing-winnebago.jpg" alt="Lake Winnebago ice" loading="lazy"></div>
-    <div class="feature-content">
-      <div class="section-tag">Hard water season</div>
-      <h2 class="section-title">ICE FISHING<br>WISCONSIN</h2>
-      <p>Sturgeon, walleye, panfish, and perch through the ice &mdash; our full hard-water guide.</p>
-      <span class="btn btn-primary">Explore Ice Fishing</span>
-    </div>
-  </a>
-</section>
-
 <!-- WEATHER REPORT -->
 <section class="weather" id="weather">
   <div class="weather-inner">
@@ -412,14 +399,38 @@ function _sunTimes(lat, lon, date) {
   }
   return { sunrise: calc(true), sunset: calc(false) };
 }
+function _skyCoverNow(grid, now) {
+  // Pull the NWS gridpoint skyCover value (0-100%) valid for the current hour.
+  // gridpoint validTime looks like "2026-11-26T20:00:00+00:00/PT1H".
+  try {
+    var vals = ((grid.properties || {}).skyCover || {}).values || [];
+    for (var i = 0; i < vals.length; i++) {
+      var parts = (vals[i].validTime || "").split("/");
+      if (parts.length < 2 || vals[i].value == null) continue;
+      var start = new Date(parts[0]);
+      var m = /PT(\d+)H/.exec(parts[1]);
+      var hours = m ? parseInt(m[1], 10) : 1;
+      var end = new Date(start.getTime() + hours * 3600000);
+      if (now >= start && now < end) return vals[i].value;
+    }
+  } catch (e) {}
+  return null;
+}
 function _biteScore(d) {
   var s = 5.0;
   if (d.trendPer3h <= -0.06) s += 2.0;
   else if (d.trendPer3h < -0.01) s += 1.5;
   else if (d.trendPer3h > 0.01) s += 0.5;
   else s += 0.25;
+  // Cloud cover: numeric % from the NWS gridpoint forecast when available,
+  // otherwise the station observation text. Overcast is prime — low light
+  // has fish roaming — while bluebird skies push them tight to cover.
   var sky = (d.sky || "").toLowerCase();
-  if (/overcast|cloudy|cloud/.test(sky)) s += 1.0;
+  if (d.cloudCover != null) {
+    if (d.cloudCover >= 70) s += 1.0;
+    else if (d.cloudCover >= 40) s += 0.5;
+    else if (d.cloudCover < 15) s -= 0.5;
+  } else if (/overcast|cloudy|cloud/.test(sky)) s += 1.0;
   else if (/clear|fair/.test(sky)) s -= 0.5;
   if (/rain|shower|thunder|drizzle/.test(sky)) s += 0.5;
   if (d.windMph >= 5 && d.windMph <= 15) s += 0.5;
@@ -440,11 +451,15 @@ function _speciesRatings(d, score) {
     return "Slow";
   };
   var w = score, sm = score, p = score, m = score, l = score, np = score, pe = score;
-  var overcast = /overcast|cloudy|cloud/i.test(d.sky || "");
+  // Cloud cover: numeric % from the NWS gridpoint forecast, else the station text.
+  // Overcast (>=60%) gives the full low-light bonus; partly cloudy (30-60%) half.
+  var cloudPct = d.cloudCover;
+  var overcast = cloudPct != null ? cloudPct >= 60 : /overcast|cloudy|cloud/i.test(d.sky || "");
+  var cloudBonus = overcast ? 0.5 : (cloudPct != null && cloudPct >= 30 ? 0.25 : 0);
   var falling = d.trendLabel === "Falling" || d.trendLabel === "Falling fast";
   if (d.tempF >= 45 && d.tempF <= 62) { w += 1; sm += 0.5; }
   if (falling) { w += 0.5; m -= 0.5; np += 0.5; }
-  if (overcast) { w += 0.5; sm += 0.5; l += 0.5; }
+  if (cloudBonus) { w += cloudBonus; sm += cloudBonus; l += cloudBonus; }
   if (d.windMph >= 8 && d.windMph <= 18) { w += 0.5; np += 0.5; }
   if (d.tempF > 72) { p += 1; m += 0.5; }
   if (d.tempF < 40) { m -= 1; sm -= 0.5; }
@@ -474,7 +489,11 @@ function _biteCopy(d) {
   if (d.trendPer3h < -0.01) bits.push("Falling barometric pressure is setting up well for active feeding windows.");
   else if (d.trendPer3h > 0.01) bits.push("Rising pressure behind the front usually means a steadier, midday bite — work it slow.");
   else bits.push("Steady pressure should keep fish on a predictable pattern today.");
-  if (/overcast|cloudy/.test(sky)) bits.push("Overcast skies have fish roaming — cover water.");
+  if (d.cloudCover != null) {
+    if (d.cloudCover >= 70) bits.push("Heavy cloud cover (" + Math.round(d.cloudCover) + "%) has fish roaming — cover water.");
+    else if (d.cloudCover >= 40) bits.push("Partly cloudy skies (" + Math.round(d.cloudCover) + "%) are keeping fish active.");
+    else if (d.cloudCover < 15) bits.push("Clear skies will push fish tight to cover; flip the shady side.");
+  } else if (/overcast|cloudy/.test(sky)) bits.push("Overcast skies have fish roaming — cover water.");
   else if (/clear/.test(sky)) bits.push("Bluebird skies will push fish tight to cover; flip the shady side.");
   if (d.windMph >= 8) bits.push(d.windCompass + " winds will push baitfish into windblown banks — work those shorelines.");
   if (d.minutesToSunEdge != null && d.minutesToSunEdge <= 90) bits.push("You're inside a prime low-light window — get a line wet now.");
@@ -491,7 +510,8 @@ function resolveNWSStation(lat, lon) {
       return nwsFetch(props.observationStations).then(function (s) {
         var feats = s.features || [];
         if (!feats.length) throw new Error("no stations");
-        return { stationId: feats[0].properties.stationIdentifier, label: label };
+        return { stationId: feats[0].properties.stationIdentifier, label: label,
+                 gridDataUrl: props.forecastGridData || null };
       });
     });
 }
@@ -500,10 +520,13 @@ function fetchNWSWeather(lat, lon) {
   return resolveNWSStation(lat, lon).then(function (res) {
     var obsUrl = "https://api.weather.gov/stations/" + res.stationId + "/observations/latest";
     var histUrl = "https://api.weather.gov/stations/" + res.stationId + "/observations?limit=8";
-    return Promise.all([nwsFetch(obsUrl), nwsFetch(histUrl)]).then(function (arr) {
+    // Gridpoint forecast for numeric cloud cover; failure must not break weather.
+    var gridP = res.gridDataUrl ? nwsFetch(res.gridDataUrl).catch(function () { return null; }) : Promise.resolve(null);
+    return Promise.all([nwsFetch(obsUrl), nwsFetch(histUrl), gridP]).then(function (arr) {
       var p = arr[0].properties || {};
       var feats = (arr[1].features || []).map(function (f) { return f.properties || {}; });
       var now = new Date();
+      var cloudCover = arr[2] ? _skyCoverNow(arr[2], now) : null;
 
       var tempC = p.temperature && p.temperature.value;
       var tempF = tempC != null ? _cToF(tempC) : null;
@@ -541,7 +564,7 @@ function fetchNWSWeather(lat, lon) {
       var feels = _feelsLike(tempF, rh, windMph);
       var d = { tempF: tempF, windMph: windMph, trendPer3h: trendPer3h, trendLabel: trendLabel,
                 sky: sky, moonIllum: moon.illumination, minutesToSunEdge: minutesToSunEdge,
-                windCompass: compass };
+                windCompass: compass, cloudCover: cloudCover };
       var score = _biteScore(d);
       var species = _speciesRatings(d, score);
       var r0 = function (v) { return v == null ? "—" : Math.round(v).toString(); };
@@ -559,6 +582,7 @@ function fetchNWSWeather(lat, lon) {
         bite_score: score,
         bite_rating: score >= 7 ? "GOOD" : (score >= 4.5 ? "FAIR" : "SLOW"),
         bite_summary: _biteCopy(d),
+        cloud_cover: cloudCover == null ? null : Math.round(cloudCover),
         species_walleye: species.species_walleye,
         species_smallmouth: species.species_smallmouth,
         species_panfish: species.species_panfish,
