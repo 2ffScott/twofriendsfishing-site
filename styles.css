@@ -115,7 +115,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,43,28,0.9
 .weather{background:var(--cream);padding:5rem 3rem}
 .weather-inner{max-width:1060px;margin:0 auto}
 .weather-header{margin-bottom:2.5rem}
-.weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.weather-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
 .wx-card{background:var(--warm-white);border:1px solid var(--sand);border-radius:6px;padding:1.5rem;text-align:center;transition:all .3s;position:relative;overflow:hidden}
 .wx-card:hover{border-color:var(--pine);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .wx-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--pine);transform:scaleX(0);transition:transform .3s}
@@ -280,6 +280,7 @@ footer{background:var(--pine-deep);padding:2.5rem 3rem;display:flex;justify-cont
   .video-grid{grid-template-columns:1fr}
   .gear-gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}.gear-item:first-child{grid-row:span 1}
   .weather-grid{grid-template-columns:repeat(2,1fr)}
+  .wx-card:last-child{grid-column:span 2}
   .wx-bite-meter{flex-direction:column;text-align:center}
   .fishwall-grid{grid-template-columns:repeat(2,1fr)}.fish-card.featured{grid-column:span 2;grid-row:span 1}
   .social-grid{grid-template-columns:repeat(2,1fr)}
