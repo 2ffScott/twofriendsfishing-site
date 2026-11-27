@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=Caveat:wght@500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
@@ -317,6 +317,7 @@
   <h2 class="section-title">GET ON THE LIST</h2>
   <p>Trip reports, tackle breakdowns, and the stories that didn't make the video — delivered by Substack. No spam, just fishing.</p>
   <div class="substack-posts"></div>
+  <div class="substack-latest"></div>
   <a class="btn btn-ember" href="https://twofriendsfishing.substack.com/subscribe" target="_blank" rel="noopener">Subscribe on Substack</a>
 </section>
 
@@ -678,7 +679,7 @@ function _escapeHtml(s) {
 }
 
 function paintVideos(grid, items) {
-  grid.innerHTML = items.map(function (v) {
+  grid.innerHTML = items.slice(0, 3).map(function (v) {
     var safeTitle = _escapeHtml(v.title);
     return '<div class="video-card" onclick="window.open(\'' + v.url + '\',\'_blank\')">' +
       '<img src="' + v.thumb + '" alt="' + safeTitle + '" loading="lazy">' +
@@ -699,7 +700,7 @@ function renderChannelVideos(grid, site) {
     }
     var playlistId = "UU" + site.youtube_channel_id.slice(2);
     var url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails" +
-      "&playlistId=" + playlistId + "&maxResults=9&key=" + site.youtube_api_key;
+      "&playlistId=" + playlistId + "&maxResults=3&key=" + site.youtube_api_key;
     fetch(url).then(function (r) { if (!r.ok) throw new Error("yt " + r.status); return r.json(); })
       .then(function (j) {
         var items = (j.items || []).map(function (it) {
@@ -837,7 +838,7 @@ async function loadSiteData() {
     if (videoGrid) {
       renderChannelVideos(videoGrid, site).catch(function () {
         if (episodes.length) {
-          videoGrid.innerHTML = episodes.map(ep => `
+          videoGrid.innerHTML = episodes.slice(0, 3).map(ep => `
         <div class="video-card" ${ep.youtube_url ? `onclick="window.open('${ep.youtube_url}','_blank')"` : ''}>
           <img src="${ep.thumbnail}" alt="${ep.title}">
           <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
@@ -907,14 +908,29 @@ async function loadSiteData() {
 
     // ── Substack previews ──
     const subPosts = document.querySelector('.substack-posts');
+    const subLatest = document.querySelector('.substack-latest');
     if (subPosts) {
       if (substack && substack.length) {
-        subPosts.innerHTML = substack.slice(0, 3).map(p => `
+        // Featured latest post (thumbnail card) + older posts as text list.
+        const latest = substack[0];
+        if (subLatest && latest) {
+          subLatest.innerHTML = `
+          <a class="substack-latest-card" href="${escHtml(latest.link)}" target="_blank" rel="noopener">
+            ${latest.thumbnail ? `<img src="${escHtml(latest.thumbnail)}" alt="${escHtml(latest.title)}" loading="lazy">` : ''}
+            <div class="substack-latest-body">
+              <div class="substack-latest-label">Latest on Substack</div>
+              <div class="substack-latest-title">${escHtml(latest.title)}</div>
+              <div class="substack-latest-date">${escHtml(latest.pubDate || '')}</div>
+            </div>
+          </a>`;
+        }
+        const older = substack.slice(1, 4);
+        subPosts.innerHTML = older.length ? older.map(p => `
           <a class="substack-post" href="${escHtml(p.link)}" target="_blank" rel="noopener">
             <div class="substack-post-title">${escHtml(p.title)}</div>
             <div class="substack-post-date">${escHtml(p.pubDate || '')}</div>
             ${p.excerpt ? `<div class="substack-post-excerpt">${escHtml(p.excerpt)}</div>` : ''}
-          </a>`).join('');
+          </a>`).join('') : '';
       } else {
         subPosts.innerHTML = '<p class="substack-empty">The first issue is still in the livewell — subscribe below and you\u2019ll get it the moment it drops.</p>';
       }
