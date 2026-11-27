@@ -228,6 +228,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,43,28,0.9
 .fish-card-angler{font-size:.7rem;color:var(--lake-fog)}
 .fish-card-location{font-size:.65rem;color:var(--sage);display:flex;align-items:center;gap:.3rem;margin-top:.15rem}
 .fish-card-location svg{width:10px;height:10px;fill:var(--sage)}
+.fish-card-date{font-size:.65rem;color:var(--sage);margin-top:.15rem}
 .fish-card-badge{position:absolute;top:.6rem;right:.6rem;z-index:2;font-family:'Bebas Neue',sans-serif;font-size:.65rem;letter-spacing:1.5px;background:var(--walleye-gold);color:var(--bark);padding:.2rem .6rem;border-radius:3px}
 .fishwall-submit{margin-top:2.5rem;text-align:center;padding:2.5rem;border:2px dashed var(--sand);border-radius:8px;background:var(--cream)}
 .fishwall-submit-icon{font-size:2.5rem;margin-bottom:.8rem}

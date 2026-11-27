@@ -1,42 +1,154 @@
 [
   {
-    "species": "Walleye — 24\"",
     "angler": "Scott",
-    "location": "Lake Winnebago, WI",
-    "image": "catch-walleye.webp",
+    "badge": "CATCH OF THE WEEK",
+    "date": "November 18, 2026",
     "featured": true,
-    "badge": "CATCH OF THE WEEK"
+    "image": "https://lh3.googleusercontent.com/d/17B3QD8LXiTBh2KJKXJcJK8YuNDOwdF08",
+    "species": "Musky"
   },
   {
-    "species": "Smallmouth — 18\"",
-    "angler": "@kayak_kevin",
-    "location": "Fox River",
-    "image": "catch-smallmouth.jpg",
+    "angler": "Scott",
+    "badge": "",
+    "date": "October 25, 2026",
     "featured": false,
-    "badge": ""
+    "image": "https://lh3.googleusercontent.com/d/1A_Q6GT8jYRt1Opg5Dgf_HUTvAtymnSgb",
+    "species": "Walleye"
   },
   {
-    "species": "Largemouth — 4.1 lbs",
-    "angler": "@adam_shoots",
-    "location": "Shawano Lake",
-    "image": "catch-largemouth.jpg",
+    "angler": "Scott",
+    "badge": "",
+    "date": "October 24, 2026",
     "featured": false,
-    "badge": ""
+    "image": "https://lh3.googleusercontent.com/d/1qJQeWrvASE34sttTXLga08-EbITm-7Jv",
+    "species": "Yellow Perch"
   },
   {
-    "species": "Bluegill — 10\"",
-    "angler": "@panfish_paul",
-    "location": "Lake Butte des Morts",
-    "image": "catch-bluegill.jpg",
+    "angler": "Scott",
+    "badge": "",
+    "date": "September 26, 2026",
     "featured": false,
-    "badge": ""
+    "image": "https://lh3.googleusercontent.com/d/1DJ9Q8L-XSbY7rk5Q6zQp9FtvnijVwhEF",
+    "species": "Freshwater Drum"
   },
   {
-    "species": "Crappie — 12\"",
-    "angler": "@slab_city",
-    "location": "Wolf River",
-    "image": "catch-crappie.jpg",
+    "angler": "Scott",
+    "badge": "",
+    "date": "September 12, 2026",
     "featured": false,
-    "badge": ""
+    "image": "https://lh3.googleusercontent.com/d/1JPXIuMwxsWvsAuJXPQHjDTOPdwSqJa4S",
+    "species": "Northern Pike"
+  },
+  {
+    "angler": "Scott",
+    "badge": "",
+    "date": "August 30, 2026",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1l1uPYhCKWAcdWZCksaSP_t8wbg5AxYS1",
+    "species": "Bowfin \u2014 16\""
+  },
+  {
+    "angler": "Scott",
+    "badge": "",
+    "date": "August 23, 2026",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1gyjFxAEr0qb_X4kZLPkQV1Jm46f8U0bc",
+    "species": "Northern Pike"
+  },
+  {
+    "angler": "Scott",
+    "badge": "",
+    "date": "August 22, 2026",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/195Mv5HhpqO9_T-0aP_AHi310I5THW18w",
+    "species": "Freshwater Drum"
+  },
+  {
+    "angler": "Scott",
+    "badge": "",
+    "date": "July 26, 2026",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1hW5vC7uB8RpzKKf66lXy8YB0LX39Ld1D",
+    "species": "Smallmouth Bass"
+  },
+  {
+    "angler": "Scott",
+    "badge": "",
+    "date": "July 26, 2026",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1uJ3jWJDQgnFz0NQRAGMZp-qhYI4Dg5YL",
+    "species": "Bowfin"
+  },
+  {
+    "angler": "Adam",
+    "badge": "",
+    "date": "June 20, 2026",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1Axyy8foVoB_qsayfVGVLOWwPxDakHbpT",
+    "species": "Northern Pike"
+  },
+  {
+    "angler": "Scott",
+    "badge": "",
+    "date": "June 20, 2026",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1x0j42LoI-JGZ_K5TMx5n995y9YWnZozn",
+    "species": "Northern Pike"
+  },
+  {
+    "angler": "Scott",
+    "badge": "",
+    "date": "Undated",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1rxZBdPCAvYWmY-spd9lXfGqxMBXnlOGm",
+    "species": "Largemouth Bass"
+  },
+  {
+    "angler": "Adam",
+    "badge": "",
+    "date": "Undated",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1uruoGS5M4e44bN9RZBpFeVMLvs38ESjq",
+    "species": "Largemouth Bass"
+  },
+  {
+    "angler": "Adam",
+    "badge": "",
+    "date": "Undated",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1hGW5VovQobA1htrGhdgkawCcIvXwW57r",
+    "species": "Largemouth Bass"
+  },
+  {
+    "angler": "Adam",
+    "badge": "",
+    "date": "Undated",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1F2yF-vhcv1_FS8T0fJGHM2z0jM3DGRfN",
+    "species": "Smallmouth Bass"
+  },
+  {
+    "angler": "Adam",
+    "badge": "",
+    "date": "Undated",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1EdbGrMoVS-uEzbaC6By4RYfFT656H56v",
+    "species": "Largemouth Bass"
+  },
+  {
+    "angler": "Adam",
+    "badge": "",
+    "date": "Undated",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1Ble0bvdAEjibZZqTthxaavtb3-Q5QGmQ",
+    "species": "Smallmouth Bass"
+  },
+  {
+    "angler": "Adam",
+    "badge": "",
+    "date": "Undated",
+    "featured": false,
+    "image": "https://lh3.googleusercontent.com/d/1wKpFkK5A6cbDFozKEJxQ9GvzSjtJfSak",
+    "species": "Smallmouth Bass"
   }
 ]
