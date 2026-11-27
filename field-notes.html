@@ -61,7 +61,7 @@
 document.querySelector('.hamburger').addEventListener('click',function(){document.querySelector('.nav-links').classList.toggle('open')});
 
 function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
-function fmtDate(ds){try{return new Date(ds).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}catch(e){return ds||''}}
+function fmtDate(ds){var d=new Date(ds);if(isNaN(d))return '';return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
 Promise.all([
   fetch('blog.json').then(r=>r.json()).catch(()=>[]),
   fetch('substack.json').then(r=>r.json()).catch(()=>[])
@@ -82,10 +82,10 @@ Promise.all([
   var items=Array.isArray(subs)?subs:(subs.posts||[]);
   if(items.length){
     sh.innerHTML=items.map(function(s){
-      return '<article class="post"><h3><a href="'+esc(s.url)+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">'+esc(s.title)+'</a></h3>'+
-      '<div class="post-meta">'+fmtDate(s.date)+'</div>'+
+      return '<article class="post"><h3><a href="'+esc(s.link)+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">'+esc(s.title)+'</a></h3>'+
+      '<div class="post-meta">'+fmtDate(s.pubDate)+'</div>'+
       '<div class="post-body"><p>'+esc(s.excerpt||'').slice(0,300)+'</p>'+
-      '<p><a href="'+esc(s.url)+'" target="_blank" rel="noopener">Read on Substack &rarr;</a></p></div></article>';
+      '<p><a href="'+esc(s.link)+'" target="_blank" rel="noopener">Read on Substack &rarr;</a></p></div></article>';
     }).join('');
   } else {
     sh.innerHTML='<div class="prose"><p><em>The first issue is still in the livewell &mdash; subscribe and you\'ll get it the moment it drops.</em></p></div>';
