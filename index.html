@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=Caveat:wght@500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="styles.css?v=10">
+<link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
 
@@ -976,7 +976,8 @@ async function loadSiteData() {
           <div class="fish-card-info">
             <div class="fish-card-species">${f.species}</div>
             <div class="fish-card-angler">${f.featured ? 'Caught by ' : ''}${f.angler}</div>
-            <div class="fish-card-location">${pinSvg}${f.location}</div>
+            ${f.location ? `<div class="fish-card-location">${pinSvg}${f.location}</div>` : ''}
+            <div class="fish-card-date">${f.date || 'Undated'}</div>
           </div>
         </div>
       `).join('');
